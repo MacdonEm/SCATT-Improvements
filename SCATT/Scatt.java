@@ -48,7 +48,8 @@ public class Scatt
 	
         //New main 
 
-        String dirName = "/var/www/html/scratch/SCATT/submissions/";
+     /* String dirName = "/var/www/html/scratch/SCATT/submissions/"; */
+        String dirName = "./submissions/";
         File directory = new File(dirName);
 	File[] sb2s = directory.listFiles();
         Arrays.sort(sb2s);

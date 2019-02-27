@@ -1,0 +1,92 @@
+{
+	"objName": "Stage",
+	"scripts": [[36, 152, [["whenKeyPressed", "space"], ["nextScene"]]],
+		[33, 39, [["whenGreenFlag"], ["startScene", "Title Page"]]]],
+	"sounds": [{
+			"soundName": "pop",
+			"soundID": 0,
+			"md5": "83a9787d4cb6f3b7632b4ddfebf74367.wav",
+			"sampleCount": 258,
+			"rate": 11025,
+			"format": ""
+		}],
+	"costumes": [{
+			"costumeName": "Title Page",
+			"baseLayerID": 1,
+			"baseLayerMD5": "925f0e023b89e3bd303f34499b56cb7f.svg",
+			"bitmapResolution": 1,
+			"rotationCenterX": 240,
+			"rotationCenterY": 180
+		},
+		{
+			"costumeName": "backdrop1",
+			"baseLayerID": 2,
+			"baseLayerMD5": "0e9f9da8a25794a0b2d46dab5f59f9d5.svg",
+			"bitmapResolution": 1,
+			"rotationCenterX": 240,
+			"rotationCenterY": 180
+		},
+		{
+			"costumeName": "backdrop2",
+			"baseLayerID": 3,
+			"baseLayerMD5": "7b9b84e953f5cb6cd8bb3e8cd2b81e54.svg",
+			"bitmapResolution": 1,
+			"rotationCenterX": 240,
+			"rotationCenterY": 180
+		},
+		{
+			"costumeName": "backdrop3",
+			"baseLayerID": 4,
+			"baseLayerMD5": "f2b06309858e2acb9d6f2bf83e5d6328.svg",
+			"bitmapResolution": 1,
+			"rotationCenterX": 240,
+			"rotationCenterY": 180
+		},
+		{
+			"costumeName": "backdrop4",
+			"baseLayerID": 5,
+			"baseLayerMD5": "29c3cbc39c3805d424706a208fcc4646.svg",
+			"bitmapResolution": 1,
+			"rotationCenterX": 240,
+			"rotationCenterY": 180
+		},
+		{
+			"costumeName": "backdrop5",
+			"baseLayerID": 6,
+			"baseLayerMD5": "5ad40e431840e1cb819b10866e89d6c6.svg",
+			"bitmapResolution": 1,
+			"rotationCenterX": 240,
+			"rotationCenterY": 180
+		},
+		{
+			"costumeName": "backdrop6",
+			"baseLayerID": 7,
+			"baseLayerMD5": "6028cf0a376b81adaff5c0a332a59775.svg",
+			"bitmapResolution": 1,
+			"rotationCenterX": 240,
+			"rotationCenterY": 180
+		},
+		{
+			"costumeName": "backdrop7",
+			"baseLayerID": 8,
+			"baseLayerMD5": "6ddbd4c8319e6dd892173935ab4c14de.svg",
+			"bitmapResolution": 1,
+			"rotationCenterX": 240,
+			"rotationCenterY": 180
+		}],
+	"currentCostumeIndex": 0,
+	"penLayerMD5": "279467d0d49e152706ed66539b577c00.png",
+	"tempoBPM": 60,
+	"videoAlpha": 0.5,
+	"children": [],
+	"info": {
+		"swfVersion": "v344",
+		"projectID": "10014866",
+		"scriptCount": 2,
+		"videoOn": false,
+		"spriteCount": 0,
+		"userAgent": "Mozilla\/5.0 (Windows NT 6.1; WOW64) AppleWebKit\/537.36 (KHTML, like Gecko) Chrome\/27.0.1453.116 Safari\/537.36",
+		"flashVersion": "WIN 11,7,700,224",
+		"hasCloudData": false
+	}
+}
