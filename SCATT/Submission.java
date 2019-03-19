@@ -50,6 +50,7 @@ public class Submission
         convertToZip();
         unZip();
         parseJSONFile();
+        vTester();
         categoryMap = new HashMap<String, String>();
         addControlCategoryMap();
         addDataCategoryMap();
@@ -65,6 +66,24 @@ public class Submission
         createSprites();
         populateGlobalVariables();
         populateGlobalLists();
+    }
+
+    public void vTester() {
+
+	JSONObject obj = FileUtils.getJSONObject(jsonObj, "info");
+	String att = FileUtils.getJSONAttribute(obj, "userAgent");
+	if (att.equals("Scratch 2.0 Offline Editor"))
+		System.out.println("I recognize a version 2");
+ 
+        obj = FileUtils.getJSONObject(jsonObj, "meta");
+        att = FileUtils.getJSONAttribute(obj, "semver");
+        if (att.equals("3.0.0"))
+        	System.out.println("I recognize a version 3");
+        
+        /* if (FileUtils.getJSONObject(jsonObj, "info") != null)
+            System.out.println("I recognize a version 2"); 
+        if (FileUtils.getJSONObject(jsonObj, "meta") != null)
+            System.out.println("I recognize a version 3"); */
     }
 
     /**
@@ -87,7 +106,7 @@ public class Submission
         String sb2Name = sb2.getName();
         int len = sb2Name.length();
         String ext = sb2Name.substring(len - 4);
-        return ext.equals(".sb2") && sb2.isFile();
+        return (ext.equals(".sb2") || ext.equals(".sb3")) && sb2.isFile();
     }
 
     /**
