@@ -1,0 +1,19 @@
+Memo.txt
+
+Things to remember/behavior to make note of. Log format:
+Year.Month.Day:
+	-> Memo(1)
+	-> Memo(2)
+	-> etc.
+
+@author: Emily Macdonald
+@version: Spring 2019
+
+2019.03.18:
+	-> Stop forgetting to compile with the jar,
+           javac -cp json-simple-1.1.1.jar filename.java
+	-> Don't forget to run with whole directory path or it gets stuck in jar,
+	   java -cp .:json-simple-1.1.1.jar filename
+	-> json_simple.jar might be missing the ParserException for some reason,
+	   use json-simple-1.1.1.jar instead
+

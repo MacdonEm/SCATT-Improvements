@@ -18,10 +18,10 @@ import org.json.simple.parser.JSONParser;
 /**
  * Class for file utilities.
  *
- * @author Michelle Melton
- * @author Kara Beason
- * @author Cydney Caldwell
- * @version Spr 2017
+ * @origauth Michelle Melton, Kara Beason, Cydney Caldwell
+ * @origver Spr 2017
+ * @author Emily Macdonald
+ * @version Spr 2019
  */
 public class FileUtils 
 {
@@ -262,5 +262,31 @@ public class FileUtils
             jsonArr = (JSONArray) obj.get(name);
         }
         return jsonArr;
+    }
+
+    /**
+     * Check version of Scratch project file.
+     *
+     * @param obj - Parsed JSON file
+     * @return int - Scratch project version
+     */
+    public static int getScratchVersion(JSONObject obj)
+    {
+        JSONObject o = new JSONObject();
+        String val = "";
+
+	// v2.0 Offline Editor 
+        o = getJSONObject(obj, "info");
+        val = getJSONAttribute(o, "userAgent");
+        if (val.equals("Scratch 2.0 Offline Editor"))
+            return 2;
+
+	// v3.0.0
+        o = getJSONObject(obj, "meta");
+        val = getJSONAttribute(o, "semver");
+        if (val.equals("3.0.0"))
+            return 3;
+
+        return -1;
     }
 }

@@ -10,10 +10,10 @@ import java.util.HashMap;
 /**
  * Class for a Scratch submission.
  *
- * @author Michelle Melton
- * @author Kara Beason
- * @author Cydney Caldwell
- * @version Spr 2017
+ * @origauth Michelle Melton, Kara Beason, Cydney Caldwell
+ * @origver Spr 2017
+ * @author Emily Macdonald
+ * @version Spr 2019
  */
 public class Submission
 {
@@ -50,6 +50,39 @@ public class Submission
         convertToZip();
         unZip();
         parseJSONFile();
+        evalSubmission();
+    }
+
+    /**
+     * Choose which version to evaluate
+     * and do so.
+     */
+    private void evalSubmission()
+    {
+        int v = FileUtils.getScratchVersion(jsonObj);
+
+        switch (v)
+        {
+            case 2 :
+                runVersion2();
+                break;
+                
+            case 3 :
+                runVersion3();
+                break;
+                
+            default:
+                System.out.println("Error evalSubmission: " +
+                                   "Scratch project version not recognized");
+                break;
+        }
+    }
+
+    /**
+     * Run operations for v2.0 Offline Editor.
+     */
+    private void runVersion2()
+    {
         categoryMap = new HashMap<String, String>();
         addControlCategoryMap();
         addDataCategoryMap();
@@ -68,6 +101,32 @@ public class Submission
     }
 
     /**
+     * Run operations for v3.0.0.
+     */
+    private void runVersion3()
+    {
+        System.out.println("\nScratch project v3.0.0 support comming soon.");
+        System.out.println("Report will be empty.\n");
+
+        categoryMap = new HashMap<String, String>();
+        addControlCategoryMap();
+        addDataCategoryMap();
+        addEventsCategoryMap();
+        addLooksCategoryMap();
+        addMoreBlocksCategoryMap();
+        addMotionCategoryMap();
+        addOperatorsCategoryMap();
+        addPenCategoryMap();
+        addSensingCategoryMap();
+        addSoundCategoryMap();
+        countBlockCategoriesForStage();
+        createSprites();
+        populateGlobalVariables();
+        populateGlobalLists();
+        
+    }   
+
+    /**
      * Get filename of submission.
      *
      * @return filename
@@ -78,20 +137,20 @@ public class Submission
     }
 
     /**
-     * Check if valid .sb2.
+     * Check if valid .sb2 or .sb3.
      *
-     * @return true if valid .sb2
+     * @return true if valid .sb2 or .sb3
      */
     public boolean isValid()
     {
         String sb2Name = sb2.getName();
         int len = sb2Name.length();
         String ext = sb2Name.substring(len - 4);
-        return ext.equals(".sb2") && sb2.isFile();
+        return (ext.equals(".sb2") || ext.equals(".sb3")) && sb2.isFile();
     }
 
     /**
-     * Convert .sb2 to .zip.
+     * Convert .sb2 or .sb3 to .zip.
      * Handles valid .sb2 test internally.
      */
     private void convertToZip()
@@ -104,7 +163,7 @@ public class Submission
 
     /**
      * Unzip file. 
-     * Handles valid .sb2 test internally.
+     * Handles valid .sb2 or .sb3 test internally.
      */
     private void unZip()
     {

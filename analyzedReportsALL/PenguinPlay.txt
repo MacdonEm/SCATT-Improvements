@@ -1,0 +1,109 @@
+SCATT Report February 26, 2019 8:15:00 PM
+
+File: PenguinPlay.sb2
+---------------------------------
+Scripts Total: 			11
+Sprites Total: 			3
+Variables Total: 		1
+	Global Variables:
+		playing used 6 time(s)
+Lists Total: 			0
+ScriptComments Total: 	0
+Sounds Total: 			5
+Costumes Total: 		8
+Control Blocks: 		6
+Data Blocks: 			5
+Event Blocks: 			17
+Looks Blocks: 			9
+More Blocks Blocks: 	0
+Motion Blocks: 			8
+Operator Blocks: 		2
+Pen Blocks: 			0
+Sensing Blocks: 		0
+Sound Blocks: 			5
+
+Stage Counts
+---------------------------------
+Scripts: 				2
+Variables: 				1
+	Global Variables:
+		playing used 0 time(s)
+Lists: 					0
+ScriptComments: 		0
+Sounds: 				1
+Costumes: 				2
+Control Blocks: 		0
+Data Blocks: 			0
+Event Blocks: 			4
+Looks Blocks: 			0
+More Blocks Blocks: 	0
+Motion Blocks: 			0
+Operator Blocks: 		0
+Pen Blocks: 			0
+Sensing Blocks: 		0
+Sound Blocks: 			1
+
+Sprite Counts
+---------------------------------
+Sprite: Sprite1
+Scripts: 				2
+Variables: 				0
+	Global Variables:
+		playing used 1 time(s)
+Lists: 					0
+ScriptComments: 		0
+Sounds: 				0
+Costumes: 				2
+Control Blocks: 		3
+Data Blocks: 			1
+Event Blocks: 			2
+Looks Blocks: 			4
+More Blocks Blocks: 	0
+Motion Blocks: 			4
+Operator Blocks: 		1
+Pen Blocks: 			0
+Sensing Blocks: 		0
+Sound Blocks: 			0
+
+Sprite: Penguin2 Talk
+Scripts: 				3
+Variables: 				0
+	Global Variables:
+		playing used 4 time(s)
+Lists: 					0
+ScriptComments: 		0
+Sounds: 				0
+Costumes: 				2
+Control Blocks: 		0
+Data Blocks: 			3
+Event Blocks: 			5
+Looks Blocks: 			2
+More Blocks Blocks: 	0
+Motion Blocks: 			0
+Operator Blocks: 		0
+Pen Blocks: 			0
+Sensing Blocks: 		0
+Sound Blocks: 			0
+
+Sprite: Trumpet
+Scripts: 				4
+Variables: 				0
+	Global Variables:
+		playing used 1 time(s)
+Lists: 					0
+ScriptComments: 		0
+Sounds: 				4
+Costumes: 				2
+Control Blocks: 		3
+Data Blocks: 			1
+Event Blocks: 			6
+Looks Blocks: 			3
+More Blocks Blocks: 	0
+Motion Blocks: 			4
+Operator Blocks: 		1
+Pen Blocks: 			0
+Sensing Blocks: 		0
+Sound Blocks: 			4
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
