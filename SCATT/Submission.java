@@ -10,10 +10,10 @@ import java.util.HashMap;
 /**
  * Class for a Scratch submission.
  *
- * @author Michelle Melton
- * @author Kara Beason
- * @author Cydney Caldwell
- * @version Spr 2017
+ * @origauth Michelle Melton, Kara Beason, Cydney Caldwell
+ * @origver Spr 2017
+ * @author Emily Macdonald
+ * @version Spr 2019
  */
 public class Submission
 {
@@ -50,7 +50,39 @@ public class Submission
         convertToZip();
         unZip();
         parseJSONFile();
-        vTester();
+        evalSubmission();
+    }
+
+    /**
+     * Choose which version to evaluate
+     * and do so.
+     */
+    private void evalSubmission()
+    {
+        int v = FileUtils.getScratchVersion(jsonObj);
+
+        switch (v)
+        {
+            case 2 :
+                runVersion2();
+                break;
+                
+            case 3 :
+                runVersion3();
+                break;
+                
+            default:
+                System.out.println("Error evalSubmission: " +
+                                   "Scratch project version not recognized");
+                break;
+        }
+    }
+
+    /**
+     * Run operations for v2.0 Offline Editor.
+     */
+    private void runVersion2()
+    {
         categoryMap = new HashMap<String, String>();
         addControlCategoryMap();
         addDataCategoryMap();
@@ -68,23 +100,31 @@ public class Submission
         populateGlobalLists();
     }
 
-    public void vTester() {
+    /**
+     * Run operations for v3.0.0.
+     */
+    private void runVersion3()
+    {
+        System.out.println("\nScratch project v3.0.0 support comming soon.");
+        System.out.println("Report will be empty.\n");
 
-	JSONObject obj = FileUtils.getJSONObject(jsonObj, "info");
-	String att = FileUtils.getJSONAttribute(obj, "userAgent");
-	if (att.equals("Scratch 2.0 Offline Editor"))
-		System.out.println("I recognize a version 2");
- 
-        obj = FileUtils.getJSONObject(jsonObj, "meta");
-        att = FileUtils.getJSONAttribute(obj, "semver");
-        if (att.equals("3.0.0"))
-        	System.out.println("I recognize a version 3");
+        categoryMap = new HashMap<String, String>();
+        addControlCategoryMap();
+        addDataCategoryMap();
+        addEventsCategoryMap();
+        addLooksCategoryMap();
+        addMoreBlocksCategoryMap();
+        addMotionCategoryMap();
+        addOperatorsCategoryMap();
+        addPenCategoryMap();
+        addSensingCategoryMap();
+        addSoundCategoryMap();
+        countBlockCategoriesForStage();
+        createSprites();
+        populateGlobalVariables();
+        populateGlobalLists();
         
-        /* if (FileUtils.getJSONObject(jsonObj, "info") != null)
-            System.out.println("I recognize a version 2"); 
-        if (FileUtils.getJSONObject(jsonObj, "meta") != null)
-            System.out.println("I recognize a version 3"); */
-    }
+    }   
 
     /**
      * Get filename of submission.
@@ -97,9 +137,9 @@ public class Submission
     }
 
     /**
-     * Check if valid .sb2.
+     * Check if valid .sb2 or .sb3.
      *
-     * @return true if valid .sb2
+     * @return true if valid .sb2 or .sb3
      */
     public boolean isValid()
     {
@@ -110,7 +150,7 @@ public class Submission
     }
 
     /**
-     * Convert .sb2 to .zip.
+     * Convert .sb2 or .sb3 to .zip.
      * Handles valid .sb2 test internally.
      */
     private void convertToZip()
@@ -123,7 +163,7 @@ public class Submission
 
     /**
      * Unzip file. 
-     * Handles valid .sb2 test internally.
+     * Handles valid .sb2 or .sb3 test internally.
      */
     private void unZip()
     {
