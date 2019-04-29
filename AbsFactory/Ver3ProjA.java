@@ -20,6 +20,23 @@ public class Ver3ProjA extends ProjectAnalyzer {
 
     Ver3StagePars stage;      // Holding variable for current stage
     Ver3SpritePars sprite;    // Holding variable for current sprite
+    boolean ctFlag            // Lets totals know if it's calculating a stage or a sprite
+
+    int scriptTotals;         // Total scripts
+    int variableTotals;       // Total variables
+    int listTotals;           // Total lists
+    int soundTotals;          // Total sounds
+    int commentTotals;        // Total comments
+    int costumeTotals;        // Total costumes
+    int controlBTotals;       // Total control blocks
+    int dataBTotals;          // Total data blocks
+    int eventBTotals;         // Total event blocks
+    int lookBTotals;          // Total look blocks
+    int motionBTotals;        // Total motion blocks
+    int operatorBTotals;      // Total operator blocks
+    int sensingBTotals;       // Total sensing blocks
+    int soundBTotals;         // Total sound blocks
+    int myBlockBTotals;       // Total my block blocks
 
 
     /*
@@ -34,6 +51,23 @@ public class Ver3ProjA extends ProjectAnalyzer {
         map = new Ver3CatMap();
         stage = new Ver3StagePars();
         sprite = new Ver3SpritePars();
+
+        ctFlag = "";
+        scriptTotals = 0;
+        variableTotals = 0;
+        listTotals = 0;
+        soundTotals = 0;
+        commentTotals = 0;
+        costumeTotals = 0;
+        controlBTotals = 0;
+        dataBTotals = 0;
+        eventBTotals = 0;
+        lookBTotals = 0;
+        motionBTotals = 0;
+        operatorBTotals = 0;
+        sensingBTotals = 0;
+        soundBTotals = 0;
+        myBlockBTotals = 0;
 
         targets = FileUtils.getJSONArrayAttribute(sb3, "targets");
     }
@@ -60,7 +94,7 @@ public class Ver3ProjA extends ProjectAnalyzer {
      */
     public void produceTextReport() {
 
-        System.out.println("Report.txt being created...");
+        System.out.println("Generating report.txt...");
         report = new TextReport(projectName);
 
         report.beginReport();
@@ -90,7 +124,7 @@ public class Ver3ProjA extends ProjectAnalyzer {
             report.printStageCounts("sprite", spriteTargets.size());                          // Sprite count
             report.printStageCounts("script", stageTargets.get(i).getScripts());              // Script count
             report.printStageCounts("variable", stageTargets.get(i).getVarCount());           // Variable count
-            report.printStageCounts("list", stageTargets.get(i).getlisCount());               // List count
+            report.printStageCounts("list", stageTargets.get(i).getLisCount());               // List count
             report.printStageCounts("sound", stageTargets.get(i).getSounds());                // Sound count
             report.printStageCounts("comment", stageTargets.get(i).getComments());            // Comment count
             report.printStageCounts("costume", stageTargets.get(i).getCostumes());            // Costume count
@@ -111,7 +145,7 @@ public class Ver3ProjA extends ProjectAnalyzer {
             report.printSpriteCounts("sprite", 0, spriteTargets.get(i).getName());                  // Sprite name
             report.printSpriteCounts("script", spriteTargets.get(i).getScripts(), "");              // Script count
             report.printSpriteCounts("variable", spriteTargets.get(i).getVarCount(), "");           // Variable count
-            report.printSpriteCounts("list", spriteTargets.get(i).getlisCount(), "");               // List count
+            report.printSpriteCounts("list", spriteTargets.get(i).getLisCount(), "");               // List count
             report.printSpriteCounts("sound", spriteTargets.get(i).getSounds(), "");                // Sound count
             report.printSpriteCounts("comment", spriteTargets.get(i).getComments(), "");            // Comment count
             report.printSpriteCounts("costume", spriteTargets.get(i).getCostumes(), "");            // Costume count
@@ -137,9 +171,11 @@ public class Ver3ProjA extends ProjectAnalyzer {
      */
     public void produceJSONReport() {
 
+        // System.out.println("Generating report.json...");
+        // report = new JSONReport(projectName);
         System.out.println("Report.json feature coming soon.\n" +
                            "A Report.txt will be created instead.");
-        produceTectReport();
+        produceTextReport();
     }
 
     /** computeCounts: void
@@ -166,11 +202,14 @@ public class Ver3ProjA extends ProjectAnalyzer {
                 stage.setTargetObj(taretObj);
                 createMap();
                 createStage();
+                ctFlag = true;    // createTotals operates with a stage
+                createTotals();
             } else {
                 sprite.setTargetObj(taretObj);
                 createMap();
                 createSprite();
-                spriteTargets.add(new Ver3SpritePars(targets.get(i)));
+                ctFlag = false;    // createTotals operates with a sprite
+                createTotals();
             }
         }
     }
@@ -220,6 +259,50 @@ public class Ver3ProjA extends ProjectAnalyzer {
         sprite.populate();
         sprite.setScriptCount(sprite.getName());
         spriteTargets.add(sprite);
+    }
+
+    /** createTotals: void
+     *
+     * Calculate totals for project.
+     *
+     * @param none
+     * @return none
+     */
+    private void createTotals() {
+
+        if (ctFlag) {    // calculate totals with stage
+            scriptTotals += map.getScriptSize(stage.getName());
+            variableTotals += stage.getVarCount();
+            listTotals += stage.getLisCount();
+            soundTotals += stage.getSounds();
+            commentTotals += stage.getComments();
+            costumeTotals += stage.getCostumes();
+            controlBTotals += stage.getControlCount();
+            dataBTotals += stage.getDataCount();
+            eventBTotals += stage.getEventCount();
+            lookBTotals += stage.getLookCount();
+            motionBTotals += stage.getMotionCount();
+            operatorBTotals += stage.getOperatorCount();
+            sensingBTotals += stage.getSensingCount();
+            soundBTotals += stage.getSoundCount();
+            myBlockBTotals += stage.getMyBlockCount();
+        } else {         // calculate totals with sprite
+            scriptTotals += getScriptSize(sprite.getName());
+            variableTotals += sprite.getVarCount();
+            listTotals += sprite.getLisCount();
+            soundTotals += sprite.getSounds();
+            commentTotals += sprite.getComments();
+            costumeTotals += sprite.getCostumes();
+            controlBTotals += sprite.getControlCount();
+            dataBTotals += sprite.getDataCount();
+            eventBTotals += sprite.getEventCount();
+            lookBTotals += sprite.getLookCount();
+            motionBTotals += sprite.getMotionCount();
+            operatorBTotals += sprite.getOperatorCount();
+            sensingBTotals += sprite.getSensingCount();
+            soundBTotals += sprite.getSoundCount();
+            myBlockBTotals += sprite.getMyBlockCount();
+        }
     }
 
     /** isStage: boolean

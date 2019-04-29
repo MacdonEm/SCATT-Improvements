@@ -47,6 +47,7 @@ public abstract class ProjectAnalyzer {
     private abstract void createMap();        // Creates category map object
     private abstract void createStage();      // Creates stage object
     private abstract void createSprite();     // Creates sprite object
+    private abstract void createTotals();     // Calculates totals
 
 //------------------------------------------------------------------------------
 //                                 Accessors
