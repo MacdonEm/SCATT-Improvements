@@ -12,18 +12,30 @@ import java.util.HashMap;
  */
 public abstract class ProjectAnalyzer {
 
+    private String projectName;       // Scratch's project name
     private JSONObject sbp;           // Scratch's project.JSON file
     private CategoryMap map;          // Categories and Blocks mapping
     private SpriteParser [] sprites;  // List of Sprites
     private StageParser stage;        // List of Stages
+    private Report report;            // report file
 
     /*
      * Basic Project Analyzer construcor
      */
-    public ProjectAnalyzer(JSONObject sbp) { this.sbp = sbp; }
+    public ProjectAnalyzer(JSONObject sbp, String projectName) {
+
+        this.sbp = sbp;
+        this.projectName = projectName;
+    }
 
     // Analyzer's activation method, invokes all analyzing tools
     public abstract void analyzeProject();
+
+    // Produces a report as a text file
+    public abstract void produceTextReport();
+
+    // Produces a report as a JSON file
+    public abstract void produceJSONReport();
 
     // Counting analysis tool
     public abstract void computeCounts();
@@ -39,6 +51,15 @@ public abstract class ProjectAnalyzer {
 //------------------------------------------------------------------------------
 //                                 Accessors
 //------------------------------------------------------------------------------
+
+    /** getName: String
+     *
+     * Get filename of submission.
+     *
+     * @param none
+     * @return projectName - name of Scratch project file
+     */
+    public String getName() { return projectName; }
 
     /** getSomething: something
      *

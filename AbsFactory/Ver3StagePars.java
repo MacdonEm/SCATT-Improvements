@@ -16,8 +16,8 @@ public class Ver3StagePars implements StageParser {
 
     // Object Counts
     String objName;             // Target's name
-    int variables;              // Number of target's variables
-    int lists;                  // Number of target's lists
+    int varCount;               // Number of target's variables
+    int lisCount;               // Number of target's lists
     int comments;               // Number of target's comments
     int costumes;               // Number of target's costumes
     int sounds;                 // Number of target's sounds
@@ -325,6 +325,24 @@ public class Ver3StagePars implements StageParser {
      * @return scripts - target's scripts
      */
     public int getScripts() { return scripts; }
+
+    /** getVarCount: int
+     *
+     * Access the target's variable count.
+     *
+     * @param none
+     * @return varCount - target's variable count
+     */
+    public int getVarCount() { return varCount; }
+
+    /** getLisCount: int
+     *
+     * Access the target's variable count.
+     *
+     * @param none
+     * @return lisCount - target's list count
+     */
+    public int getLisCount() { return lisCount; }
 
     /** getControlCount: int
      *

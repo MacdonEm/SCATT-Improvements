@@ -1,6 +1,7 @@
 import java.io.File;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
+import java.util.Scanner;
 
 /** Submission.java
  *
@@ -43,22 +44,64 @@ public class Submission {
     private void evalSubmission() {
 
         int v = FileUtils.getScratchVersion(jsonObj);
+        String n = sbp.getName();
+        n.substring(0, (n.length()-4));
 
         switch (v) {
             case 2 :
-                analysis = new Ver2ProjA(sbpObj);
+                analysis = new Ver2ProjA(sbpObj, n.substring(0, (n.length()-4)));
                 analysis.analyzeProject();
+                createReport();
                 break;
 
             case 3 :
-                analysis = new Ver3ProjA(sbpObj);
+                analysis = new Ver3ProjA(sbpObj, n.substring(0, (n.length()-4)));
                 analysis.analyzeProject();
+                createReport();
                 break;
 
             default:
                 System.out.println("Error evalSubmission: " +
                                    "Scratch project version not recognized");
                 break;
+        }
+    }
+
+    /** createReport: void
+     *
+     * Based on user input, produce report file. Supported file types include:
+     *     -> text files
+     *     -> json files (kind of)
+     *
+     * @param none
+     * @return none
+     */
+    private void createReport() {
+
+        Scanner kb = new Scanner(System.in);
+        String reportFile;
+        do {
+            System.out.println("Choose report file type.\n" +
+                               "Supported file types:\n" +
+                               "\tText File: type \"text\" to select\n" +
+                               "\tJSON File: type \"json\" to select\n");
+            reportFile = kb.nextLine();
+
+            if (reportFile.equals("text"))
+                break;
+            else if (reportFile.equals("json"))
+                break;
+
+            System.out.println("Error. Selected file type not recognized.\n" +
+                               "Please try again.\n");
+        } while (true);
+
+        switch (reportFile) {
+            case "text" :
+                analysis.produceTextReport();
+                break;
+            case "json" :
+                analysis.produceJSONReport();
         }
     }
 
@@ -127,19 +170,6 @@ public class Submission {
 //------------------------------------------------------------------------------
 //                                 Accessors
 //------------------------------------------------------------------------------
-
-    /** getName: String
-     *
-     * Get filename of submission.
-     *
-     * @param none
-     * @return filename - name of Scratch project file
-     */
-    public String getName() {
-
-        String n = sbp.getName();
-        return n.substring(0, (n.length()-4));
-    }
 
     /** getJSONObject: JSONObject
      *

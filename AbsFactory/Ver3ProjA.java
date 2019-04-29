@@ -25,9 +25,9 @@ public class Ver3ProjA extends ProjectAnalyzer {
     /*
      * Run operations for v3.0 Offline Editor.
      */
-    public Ver3ProjA(JSONObject sb3) {
+    public Ver3ProjA(JSONObject sb3, String projectName) {
 
-        super(sb3);
+        super(sb3, projectName);
 
         stageTargets = new ArrayList<Ver3StagePars>();
         spriteTargets = new ArrayList<Ver3SpritePars>();
@@ -49,7 +49,97 @@ public class Ver3ProjA extends ProjectAnalyzer {
     public void analyzeProject() {
 
         computeCounts();
+    }
 
+    /** produceTextReport: void
+     *
+     * Produces a text report file.
+     *
+     * @param none
+     * @return none
+     */
+    public void produceTextReport() {
+
+        System.out.println("Report.txt being created...");
+        report = new TextReport(projectName);
+
+        report.beginReport();
+        /* Totals */
+        report.totalHeader();
+        // You forgot to compute totals, so do that.
+            report.printTotalCounts("sprite", (stageTargets.size() + spriteTargets.size()));    // Sprite count
+            report.printTotalCounts("script", scriptTotals);                                    // Script count
+            report.printTotalCounts("variable", variableTotals);                                // Variable count
+            report.printTotalCounts("list", listTotals);                                        // List count
+            report.printTotalCounts("sound", soundTotals);                                      // Sound count
+            report.printTotalCounts("comment", commentTotals);                                  // Comment count
+            report.printTotalCounts("costume", costumeTotals);                                  // Costume count
+            report.printTotalCounts("controlB", controlBTotals);                                // Control block count
+            report.printTotalCounts("dataB", dataBTotals);                                      // Data block count
+            report.printTotalCounts("eventB", eventBTotals);                                    // Event block count
+            report.printTotalCounts("lookB", lookBTotals);                                      // Look block count
+            report.printTotalCounts("motionB", motionBTotals);                                  // Motion block count
+            report.printTotalCounts("operatorB", operatorBTotals);                              // Operator block count
+            report.printTotalCounts("sensingB", sensingBTotals);                                // Sensing block count
+            report.printTotalCounts("soundB", soundBTotals);                                    // Sound block count
+            report.printTotalCounts("myBlockB", myBlockBTotals);                                // MyBlock block count
+
+        /* Stages */
+        report.stageHeader();
+        for (int i = 0; i < stageTargets.size(); i++) {
+            report.printStageCounts("sprite", spriteTargets.size());                          // Sprite count
+            report.printStageCounts("script", stageTargets.get(i).getScripts());              // Script count
+            report.printStageCounts("variable", stageTargets.get(i).getVarCount());           // Variable count
+            report.printStageCounts("list", stageTargets.get(i).getlisCount());               // List count
+            report.printStageCounts("sound", stageTargets.get(i).getSounds());                // Sound count
+            report.printStageCounts("comment", stageTargets.get(i).getComments());            // Comment count
+            report.printStageCounts("costume", stageTargets.get(i).getCostumes());            // Costume count
+            report.printStageCounts("controlB", stageTargets.get(i).getControlCount());       // Control block count
+            report.printStageCounts("dataB", stageTargets.get(i).getDataCount());             // Data block count
+            report.printStageCounts("eventB", stageTargets.get(i).getEventCount());           // Event block count
+            report.printStageCounts("lookB", stageTargets.get(i).getLookCount());             // Look block count
+            report.printStageCounts("motionB", stageTargets.get(i).getMotionCount());         // Motion block count
+            report.printStageCounts("operatorB", stageTargets.get(i).getOperatorCount());     // Operator block count
+            report.printStageCounts("sensingB", stageTargets.get(i).getSensingCount());       // Sensing block count
+            report.printStageCounts("soundB", stageTargets.get(i).getSoundCount());           // Sound block count
+            report.printStageCounts("myBlockB", stageTargets.get(i).getMyBlockCount());       // MyBlock block count
+        }
+
+        /* Sprites */
+        report.spriteHeader();
+        for (int i = 0; i < spriteTargets.size(); i++) {
+            report.printSpriteCounts("sprite", 0, spriteTargets.get(i).getName());                  // Sprite name
+            report.printSpriteCounts("script", spriteTargets.get(i).getScripts(), "");              // Script count
+            report.printSpriteCounts("variable", spriteTargets.get(i).getVarCount(), "");           // Variable count
+            report.printSpriteCounts("list", spriteTargets.get(i).getlisCount(), "");               // List count
+            report.printSpriteCounts("sound", spriteTargets.get(i).getSounds(), "");                // Sound count
+            report.printSpriteCounts("comment", spriteTargets.get(i).getComments(), "");            // Comment count
+            report.printSpriteCounts("costume", spriteTargets.get(i).getCostumes(), "");            // Costume count
+            report.printSpriteCounts("controlB", spriteTargets.get(i).getControlCount(), "");       // Control block count
+            report.printSpriteCounts("dataB", spriteTargets.get(i).getDataCount(), "");             // Data block count
+            report.printSpriteCounts("eventB", spriteTargets.get(i).getEventCount(), "");           // Event block count
+            report.printSpriteCounts("lookB", spriteTargets.get(i).getLookCount(), "");             // Look block count
+            report.printSpriteCounts("motionB", spriteTargets.get(i).getMotionCount(), "");         // Motion block count
+            report.printSpriteCounts("operatorB", spriteTargets.get(i).getOperatorCount(), "");     // Operator block count
+            report.printSpriteCounts("sensingB", spriteTargets.get(i).getSensingCount(), "");       // Sensing block count
+            report.printSpriteCounts("soundB", spriteTargets.get(i).getSoundCount(), "");           // Sound block count
+            report.printSpriteCounts("myBlockB", spriteTargets.get(i).getMyBlockCount(), "");       // MyBlock block count
+        }
+        report.finishReport();
+    }
+
+    /** produceJSONReport: void
+     *
+     * Produces a JSON report file.
+     *
+     * @param none
+     * @return none
+     */
+    public void produceJSONReport() {
+
+        System.out.println("Report.json feature coming soon.\n" +
+                           "A Report.txt will be created instead.");
+        produceTectReport();
     }
 
     /** computeCounts: void
@@ -154,18 +244,5 @@ public class Ver3ProjA extends ProjectAnalyzer {
 
         return;
     }
-
-//------------------------------------------------------------------------------
-//                                 Accessors
-//------------------------------------------------------------------------------
-
-    /** getSomething: something
-     *
-     * Retrieves <blank>.
-     *
-     * @param none
-     * @return something
-     */
-    public something getSomething() { return; }
 
 }

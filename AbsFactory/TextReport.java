@@ -12,7 +12,7 @@ import java.text.DateFormat;
  * @author Emily Macdonald
  * @version Spr 2019
  */
-public class TextReport {
+public class TextReport implements Report {
 
     String projectName;    // Name of Scratch Project
     PrintWriter printW;    // Printwriter for saving to a file
@@ -20,7 +20,7 @@ public class TextReport {
     /*
      * Creates text report object
      */
-    public Report(String projectName) { this.projectName = projectName; }
+    public TextReport(String projectName) { this.projectName = projectName; }
 
     /** beginReport: void
      *
@@ -103,7 +103,7 @@ public class TextReport {
     }
 
 //------------------------------------------------------------------------------
-//                              Category Counts
+//                                  Counts
 //------------------------------------------------------------------------------
 
     /** printTotalCounts: void
@@ -118,104 +118,167 @@ public class TextReport {
     public void printTotalCounts(String countType, int count) {
 
         switch (countType) {
-            case "script":
+            case "script" :
                 printW.println("Scripts Total: \t\t\t" + count);
                 break;
-            case "sprite":
+            case "sprite" :
                 printW.println("Sprites Total: \t\t\t" + count);
                 break;
-            case "...":
-
-        printW.println("Variables Total: \t\t" + submissions[i].getVariableCountForProgram());
-
-        // printVariableUsageForProgram(printW, i);
-
-        printW.println("Lists Total: \t\t\t" + submissions[i].getListCountForProgram());
-
-        // printListUsageForProgram(printW, i);
-
-        printW.println("Sounds Total: \t\t\t" + submissions[i].getSoundCountForProgram());
-        printW.println("Costumes Total: \t\t" + submissions[i].getCostumeCountForProgram());
-        printW.println("Control Blocks: \t\t" + submissions[i].getControlBlocksForProgram());
-        printW.println("Data Blocks: \t\t\t" + submissions[i].getDataBlocksForProgram());
-        printW.println("Event Blocks: \t\t\t" + submissions[i].getEventsBlocksForProgram());
-        printW.println("Looks Blocks: \t\t\t" + submissions[i].getLooksBlocksForProgram());
-        printW.println("More Blocks Blocks: \t" + submissions[i].getMoreBlocksBlocksForProgram());
-        printW.println("Motion Blocks: \t\t\t" + submissions[i].getMotionBlocksForProgram());
-        printW.println("Operator Blocks: \t\t" + submissions[i].getOperatorsBlocksForProgram());
-        printW.println("Pen Blocks: \t\t\t" + submissions[i].getPenBlocksForProgram());
-        printW.println("Sensing Blocks: \t\t" + submissions[i].getSensingBlocksForProgram());
-        printW.println("Sound Blocks: \t\t\t" + submissions[i].getSoundBlocksForProgram());
-        }
-        printW.println();
+            case "variable" :
+                printW.println("Variables Total: \t\t" + count);
+                // printVariableUsageForProgram(printW, i);
+                break;
+            case "list" :
+                printW.println("Lists Total: \t\t\t" + count);
+                // printListUsageForProgram(printW, i);
+                break;
+            case "sound" :
+                printW.println("Sounds Total: \t\t\t" + count);
+                break;
+            case "comment" :
+                printW.println("Comments Total: \t\t" + count);
+                break;
+            case "costume" :
+                printW.println("Costumes Total: \t\t" + count);
+                break;
+            default:
+                printBlockCounts(countType, count);
+            }
     }
 
-    /**
-    * Print out the stage counts for a given submission.
-    *
-    * @param printW - the PrintWriter to use.
-    * @param i - the index of the submission to be printed.
-    */
-    private void printStageCounts(PrintWriter printW, int i) {
+    /** printBlockCounts: void
+     *
+     * Print out the block category counts for a given submission.
+     * Because apparently there's a reason for this specific formatting.
+     *
+     * @param blockType - type of block categpry being passed
+     *        count     - count of that item
+     * @return none
+     */
+    public void printBlockCounts(String blockType, int count) {
 
-        printW.println("Scripts: \t\t\t\t" + submissions[i].getScriptCountForStage());
-        printW.println("Variables: \t\t\t\t" + submissions[i].getVariableCountForStage());
-
-        //printVariableUsageForStage(printW, i);
-
-        printW.println("Lists: \t\t\t\t\t" + submissions[i].getListCountForStage());
-
-        //printListUsageForStage(printW, i);
-
-        printW.println("ScriptComments: \t\t" + submissions[i].getScriptCommentCountForStage());
-        printW.println("Sounds: \t\t\t\t" + submissions[i].getSoundCountForStage());
-        printW.println("Costumes: \t\t\t\t" + submissions[i].getCostumeCountForStage());
-        printW.println("Control Blocks: \t\t" + submissions[i].getControlBlocksForStage());
-        printW.println("Data Blocks: \t\t\t" + submissions[i].getDataBlocksForStage());
-        printW.println("Event Blocks: \t\t\t" + submissions[i].getEventsBlocksForStage());
-        printW.println("Looks Blocks: \t\t\t" + submissions[i].getLooksBlocksForStage());
-        printW.println("More Blocks Blocks: \t" + submissions[i].getMoreBlocksBlocksForStage());
-        printW.println("Motion Blocks: \t\t\t" + submissions[i].getMotionBlocksForStage());
-        printW.println("Operator Blocks: \t\t" + submissions[i].getOperatorsBlocksForStage());
-        printW.println("Pen Blocks: \t\t\t" + submissions[i].getPenBlocksForStage());
-        printW.println("Sensing Blocks: \t\t" + submissions[i].getSensingBlocksForStage());
-        printW.println("Sound Blocks: \t\t\t" + submissions[i].getSoundBlocksForStage());
-        printW.println();
+        switch (blockType) {
+            case "controlB" :
+                printW.println("Control Blocks: \t\t" + count);
+                break;
+            case "dataB" :
+                printW.println("Data Blocks: \t\t\t" + count);
+                break;
+            case "eventB" :
+                printW.println("Event Blocks: \t\t\t" + count);
+                break;
+            case "looksB" :
+                printW.println("Looks Blocks: \t\t\t" + count);
+                break;
+            case "moreBlocksB" :
+                printW.println("More Blocks Blocks: \t" + count);
+                break;
+            case "motionB" :
+                printW.println("Motion Blocks: \t\t\t" + count);
+                break;
+            case "operatorB" :
+                printW.println("Operator Blocks: \t\t" + count);
+                break;
+            case "penB" :
+                printW.println("Pen Blocks: \t\t\t" + count);
+                break;
+            case "sensingB" :
+                printW.println("Sensing Blocks: \t\t" + count);
+                break;
+            case "soundB" :
+                printW.println("Sound Blocks: \t\t\t" + count);
+                break;
+            case "myBlockB" :
+                printW.println("My Block Blocks: \t\t" + count);
+                break;
+            }
     }
 
-    /**
-    * Print out sprite counts for a given submission.
-    *
-    * @param printW - the PrintWriter to use.
-    * @param i - the index of the submission to print counts for.
-    */
-    private void printSpriteCounts(PrintWriter printW, ArrayList<SpriteParser> sprites) {
+    /** printStageCount: void
+     *
+     * Print out the stage counts for a given submission.
+     * Because apparently there's a reason for this specific formatting.
+     *
+     * @param countType - Type of item being passed
+     *        count     - count of that item
+     * @return none
+     */
+    private void printStageCounts(String countType, int count) {
 
-        printW.println("Sprite: " + sprites[j].getName());
-        printW.println("Scripts: \t\t\t\t" + sprites[j].getScriptCount());
-        printW.println("Variables: \t\t\t\t" + sprites[j].getVariableCount());
-
-        //printVariableUsage(printW, i, sprites[j]);
-
-        printW.println("Lists: \t\t\t\t\t" + sprites[j].getListCount());
-
-        //printListUsage(printW, i, sprites[j]);
-
-        printW.println("ScriptComments: \t\t" + sprites[j].getScriptCommentCount());
-        printW.println("Sounds: \t\t\t\t" + sprites[j].getSoundCount());
-        printW.println("Costumes: \t\t\t\t" + sprites[j].getCostumeCount());
-        printW.println("Control Blocks: \t\t" + sprites[j].getControlBlocksForSprite());
-        printW.println("Data Blocks: \t\t\t" + sprites[j].getDataBlocksForSprite());
-        printW.println("Event Blocks: \t\t\t" + sprites[j].getEventsBlocksForSprite());
-        printW.println("Looks Blocks: \t\t\t" + sprites[j].getLooksBlocksForSprite());
-        printW.println("More Blocks Blocks: \t" + sprites[j].getMoreBlocksBlocksForSprite());
-        printW.println("Motion Blocks: \t\t\t" + sprites[j].getMotionBlocksForSprite());
-        printW.println("Operator Blocks: \t\t" + sprites[j].getOperatorsBlocksForSprite());
-        printW.println("Pen Blocks: \t\t\t" + sprites[j].getPenBlocksForSprite());
-        printW.println("Sensing Blocks: \t\t" + sprites[j].getSensingBlocksForSprite());
-        printW.println("Sound Blocks: \t\t\t" + sprites[j].getSoundBlocksForSprite());
-        printW.println();
+        switch (countType) {
+            case "script" :
+                printW.println("Scripts: \t\t\t\t" + count);
+                break;
+            case "sprite" :
+                printW.println("Sprites: \t\t\t" + count);
+                break;
+            case "variable" :
+                printW.println("Variables: \t\t\t\t" + count);
+                // printVariableUsageForStage(printW, i);
+                break;
+            case "list" :
+                printW.println("Lists: \t\t\t\t\t" + count);
+                // printListUsageForStage(printW, i);
+                break;
+            case "sound" :
+                printW.println("Sounds: \t\t\t\t" + count);
+                break;
+            case "comment" :
+                printW.println("Comments: \t\t" + count);
+                break;
+            case "costume" :
+                printW.println("Costumes: \t\t\t\t" + count);
+                break;
+            default:
+                printBlockCounts(countType, count);
+            }
     }
+
+    /** printSpriteCounts: void
+     *
+     * Print out the sprite counts for a given submission.
+     * Because apparently there's a reason for this specific formatting.
+     *
+     * @param countType - Type of item being passed
+     *        count     - count of that item
+     *        name      - sprite name
+     * @return none
+     */
+    private void printSpriteCounts(String countType, int count, String name) {
+
+        switch (countType) {
+            case "script" :
+                printW.println("Scripts: \t\t\t\t" + count);
+                break;
+            case "sprite" :
+                printW.println("Sprite: " + name);
+                break;
+            case "variable" :
+                printW.println("Variables: \t\t\t\t" + count);
+                //printVariableUsage(printW, i, sprites[j]);
+                break;
+            case "list" :
+                printW.println("Lists: \t\t\t\t\t" + count);
+                //printListUsage(printW, i, sprites[j]);
+                break;
+            case "sound" :
+                printW.println("Sounds: \t\t\t\t" + count);
+                break;
+            case "comment" :
+                printW.println("Comments: \t\t" + count);
+                break;
+            case "costume" :
+                printW.println("Costumes: \t\t\t\t" + count);
+                break;
+            default:
+                printBlockCounts(countType, count);
+            }
+    }
+
+//------------------------------------------------------------------------------
+//                                Helpers
+//------------------------------------------------------------------------------
+
 /*
 
     * Print total variable usage counts.
@@ -374,9 +437,6 @@ public class TextReport {
         }
     }
 */
-//------------------------------------------------------------------------------
-//                                Helpers
-//------------------------------------------------------------------------------
 
     /** reportDateTime: String
      *
