@@ -8,7 +8,7 @@ import org.json.simple.JSONObject;
  * @author Emily Macdonald
  * @version Spring 2019
  */
-public class Ver3StagePars implements StageParser {
+public class Ver3StagePars extends StageParser {
 
     JSONObject targetObj;       // Target's Scratch JSON
     String[] variables;         // Array of target's variables

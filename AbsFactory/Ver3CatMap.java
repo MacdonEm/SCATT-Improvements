@@ -4,14 +4,14 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.Map;
 
-/** Var3CatMap.java
+/** Ver3CatMap.java
  *
  * Defines a version 3 category map.
  *
  * @author Emily Macdonald
  * @version Spring 2019
  */
-public class Var3CatMap implements CategoryMap {
+public class Ver3CatMap extends CategoryMap {
 
     /*
      * Describes a Block node
@@ -48,7 +48,7 @@ public class Var3CatMap implements CategoryMap {
     /*
      * Creates a version 3 category map object.
      */
-    public Var3CatMap() {
+    public Ver3CatMap() {
 
         targetBlocks = null;
         scriptCount = 0;
@@ -131,7 +131,7 @@ public class Var3CatMap implements CategoryMap {
 	private Integer getKey(Set<Map.Entry<Integer, Block>> map, Block bl) {
 
 		for (Map.Entry<Integer, Block> entry : map)
-			if (bl.isChild(entry.getValue())
+			if (bl.isChild(entry.getValue()))
 				return entry.getKey();
 
         return -1;

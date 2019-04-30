@@ -15,9 +15,12 @@ public class Ver3ProjA extends ProjectAnalyzer {
     JSONArray targetBlocks;   // Array of a target's blocks
     JSONObject targetObj;     // JSON for current target
 
+    ArrayList<Ver3StagePars> stageTargets;
+    ArrayList<Ver3SpritePars> spriteTargets;
+
     Ver3StagePars stage;      // Holding variable for current stage
     Ver3SpritePars sprite;    // Holding variable for current sprite
-    boolean ctFlag            // Lets totals know if it's calculating a stage or a sprite
+    boolean ctFlag;           // Lets totals know if it's calculating a stage or a sprite
 
     int scriptTotals;         // Total scripts
     int variableTotals;       // Total variables
@@ -48,6 +51,7 @@ public class Ver3ProjA extends ProjectAnalyzer {
         map = new Ver3CatMap();
         stage = new Ver3StagePars();
         sprite = new Ver3SpritePars();
+        report = new TextReport(projectName);
 
         ctFlag = "";
         scriptTotals = 0;
@@ -92,7 +96,6 @@ public class Ver3ProjA extends ProjectAnalyzer {
     public void produceTextReport() {
 
         System.out.println("Generating report.txt...");
-        report = new TextReport(projectName);
 
         report.beginReport();
         /* Totals */
@@ -223,7 +226,7 @@ public class Ver3ProjA extends ProjectAnalyzer {
      * @param none
      * @return none
      */
-    private void createMap() {
+    protected void createMap() {
 
         map.setTargetBlocks(FileUtils.getJSONArrayAttribute(targetObj, "blocks"));
         map.setTargetName(FileUtils.getJSONAttribute(targetObj, "name"));
@@ -237,7 +240,7 @@ public class Ver3ProjA extends ProjectAnalyzer {
      * @param none
      * @return none
      */
-    private void createStage() {
+    protected void createStage() {
 
         stage.populate();
         stage.setScriptCount(stage.getName());
@@ -251,7 +254,7 @@ public class Ver3ProjA extends ProjectAnalyzer {
      * @param none
      * @return none
      */
-    private void createSprite() {
+    protected void createSprite() {
 
         sprite.populate();
         sprite.setScriptCount(sprite.getName());
@@ -265,7 +268,7 @@ public class Ver3ProjA extends ProjectAnalyzer {
      * @param none
      * @return none
      */
-    private void createTotals() {
+    protected void createTotals() {
 
         if (ctFlag) {    // calculate totals with stage
             scriptTotals += map.getScriptSize(stage.getName());

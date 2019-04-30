@@ -7,7 +7,7 @@
  * @author Emily Macdonald
  * @version Spring 2019
  */
-public interface Report {
+public abstract class Report {
 
     // beginReport should at least set up the file being written to
     public abstract void beginReport();

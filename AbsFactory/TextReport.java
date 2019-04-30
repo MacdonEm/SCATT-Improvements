@@ -12,7 +12,7 @@ import java.text.DateFormat;
  * @author Emily Macdonald
  * @version Spr 2019
  */
-public class TextReport implements Report {
+public class TextReport extends Report {
 
     String projectName;    // Name of Scratch Project
     PrintWriter printW;    // Printwriter for saving to a file
@@ -31,13 +31,19 @@ public class TextReport implements Report {
      */
     public void beginReport() {
 
-        File reportFile = new File("./analyzedReports/" + projectName.getName() + ".txt");
-        printW = new PrintWriter(reportFile);
+	try {
+        	File reportFile = new File("./analyzedReports/" + projectName + ".txt");
+        	printW = new PrintWriter(reportFile);
 
-        printW.println();
-        printW.println("SCATT Report " + headerDateTime() + "\n");
-        printW.println("File: " + projectName);
-        printW.println("---------------------------------");
+        	printW.println();
+        	printW.println("SCATT Report " + headerDateTime() + "\n");
+        	printW.println("File: " + projectName);
+        	printW.println("---------------------------------");
+	}
+	catch (FileNotFoundException e) {
+    		e.printStackTrace();
+    		System.out.println("Error, report not made");
+	}
     }
 
     /** finishReport: void
@@ -203,7 +209,7 @@ public class TextReport implements Report {
      *        count     - count of that item
      * @return none
      */
-    private void printStageCounts(String countType, int count) {
+    public void printStageCounts(String countType, int count) {
 
         switch (countType) {
             case "script" :
@@ -244,7 +250,7 @@ public class TextReport implements Report {
      *        name      - sprite name
      * @return none
      */
-    private void printSpriteCounts(String countType, int count, String name) {
+    public void printSpriteCounts(String countType, int count, String name) {
 
         switch (countType) {
             case "script" :

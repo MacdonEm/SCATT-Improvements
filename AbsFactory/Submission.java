@@ -43,7 +43,7 @@ public class Submission {
      */
     private void evalSubmission() {
 
-        int v = FileUtils.getScratchVersion(jsonObj);
+        int v = FileUtils.getScratchVersion(sbpObj);
         String n = sbp.getName();
         n.substring(0, (n.length()-4));
 
@@ -171,21 +171,4 @@ public class Submission {
 //                                 Accessors
 //------------------------------------------------------------------------------
 
-    /** getJSONObject: JSONObject
-     *
-     * Get JSON object of submission.
-     *
-     * @param none
-     * @return jsonObj - JSON object
-     */
-    public JSONObject getJSONObject() { return jsonObj; }
-
-    /** getAnalysis: ProjectAnalysis
-     *
-     * Get analysis.
-     *
-     * @param none
-     * @return jsonObj - JSON object
-     */
-    public ProjectAnalysis getAnalysis() { return analysis; }
 }

@@ -13,7 +13,7 @@
  * @author Emily Macdonald
  * @version Spring 2019
  */
-public interface StageParser {
+public abstract class StageParser {
 
     // populate should create the stage to the above specifications
     public abstract void populate();

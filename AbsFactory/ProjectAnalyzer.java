@@ -16,9 +16,7 @@ public abstract class ProjectAnalyzer {
     String projectName;                       // Scratch's project name
     JSONObject sbp;                           // Scratch's project.JSON file
     CategoryMap map;                          // Categories and Blocks mapping
-    ArrayList<StageParser> stageTargets;      // List of Stages
-    ArrayList<SpriteParser> spriteTargets;    // List of Sprites
-    Report report;                            // Report file
+    TextReport report;                        // Report file
 
     /*
      * Basic Project Analyzer construcor
@@ -45,10 +43,10 @@ public abstract class ProjectAnalyzer {
 //                                 Helpers
 //------------------------------------------------------------------------------
 
-    private abstract void createMap();        // Creates category map object
-    private abstract void createStage();      // Creates stage object
-    private abstract void createSprite();     // Creates sprite object
-    private abstract void createTotals();     // Calculates totals
+    protected abstract void createMap();        // Creates category map object
+    protected abstract void createStage();      // Creates stage object
+    protected abstract void createSprite();     // Creates sprite object
+    protected abstract void createTotals();     // Calculates totals
 
 //------------------------------------------------------------------------------
 //                                 Accessors
@@ -62,14 +60,5 @@ public abstract class ProjectAnalyzer {
      * @return projectName - name of Scratch project file
      */
     public String getName() { return projectName; }
-
-    /** getSomething: something
-     *
-     * Retrieves <blank>.
-     *
-     * @param none
-     * @return something
-     */
-    public something getSomething() { return; }
 
 }

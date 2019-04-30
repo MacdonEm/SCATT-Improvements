@@ -12,12 +12,14 @@ import java.util.HashMap;
  *
  * @author Emily Macdonald
  */
-public class Ver2SpritePars implements SpriteParser {
+public class Ver2SpritePars extends SpriteParser {
 
     String[] variables;                // Array of target's variables
     String[] lists;                    // Array of target's lists
 
     JSONObject sb2;                    // Target's Scratch JSON
+    JSONObject jsonObj;		       // Quick fix, change later
+    HashMap<String, String> categoryMap;// Quick fix, change later
     String name;                       // Target's name
     int scriptCount;                   // Number of target's scripts
     int variableCount;                 // Number of target's variables
@@ -40,9 +42,11 @@ public class Ver2SpritePars implements SpriteParser {
     /*
      * constructor
      */
-    public Sprite(JSONObject sb2) {
+    public Ver2SpritePars(JSONObject sb2, HashMap<String, String> categoryMap) {
 
         this.sb2 = sb2;
+        jsonObj = sb2;
+        this.categoryMap = categoryMap;
 
         name = FileUtils.getJSONAttribute(jsonObj, "objName");
         scriptCount = 0;
@@ -56,12 +60,12 @@ public class Ver2SpritePars implements SpriteParser {
         dataBlocksForSprite = 0;
         eventsBlocksForSprite = 0;
         looksBlocksForSprite = 0;
-        moreBlocksBlocksForStage = 0;
-        motionBlocksForStage = 0;
-        operatorsBlocksForStage = 0;
-        penBlocksForStage = 0;
-        sensingBlocksForStage = 0;
-        soundBlocksForStage = 0;
+        moreBlocksBlocksForSprite = 0;
+        motionBlocksForSprite = 0;
+        operatorsBlocksForSprite = 0;
+        penBlocksForSprite = 0;
+        sensingBlocksForSprite = 0;
+        soundBlocksForSprite = 0;
     }
 
     /** populate: void
@@ -142,6 +146,18 @@ public class Ver2SpritePars implements SpriteParser {
 //                                   Helpers
 //------------------------------------------------------------------------------
 
+    /** getCategory: String
+     *
+     * Get category name for specified script name.
+     *
+     * @param scriptName - name being sought
+     * @return category found, nnull if no mapping
+     */
+    private String getCategory(String scriptName) {
+
+        return (String) categoryMap.get(scriptName);
+    }
+
     /** processScripts: void
      *
      * Process scripts to count blocks by category.
@@ -158,7 +174,7 @@ public class Ver2SpritePars implements SpriteParser {
         // Action: If first element is a String, it is the block name.
         //         Get it and and count its category.
         if (array.get(0) instanceof String) {
-            String category = Ver2ProjA.getCategory((String) array.get(0));
+            String category = getCategory((String) array.get(0));
 
             if (category != null)
                 switch (category) {

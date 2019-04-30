@@ -8,7 +8,7 @@ import org.json.simple.JSONObject;
  * @author Emily Macdonald
  * @version Spring 2019
  */
-public class Ver3SpritePars implements SpriteParser {
+public class Ver3SpritePars extends SpriteParser {
 
     JSONObject targetObj;       // Target's Scratch JSON
     String[] variables;         // Array of target's variables

@@ -12,11 +12,13 @@ import java.util.HashMap;
  *
  * @author Emily Macdonald
  */
-public class Ver2StagePars implements StageParser {
+public class Ver2StagePars extends StageParser {
 
     String [] globalVariables;          // Array of target's variables
     String [] globalLists;              // Array of target's lists
     JSONObject sb2;                     // Target's Scratch JSON
+    JSONObject jsonObj;                 // Quick fix, change later
+    HashMap<String, String> categoryMap;// Quick fix, change later
     String name;                        // Target's name
 
     // Object Counts
@@ -42,9 +44,11 @@ public class Ver2StagePars implements StageParser {
     /*
      * constructor
      */
-    public Ver2StagePars(JSONObject sb2) {
+    public Ver2StagePars(JSONObject sb2, HashMap<String, String> categoryMap) {
 
         this.sb2 = sb2;
+        jsonObj = sb2;
+        this.categoryMap = categoryMap;
         name = FileUtils.getJSONAttribute(sb2, "objName");
 
         // Initialize attribute counts for stage
@@ -136,13 +140,25 @@ public class Ver2StagePars implements StageParser {
 
         for (int i = 0; i < listsArr.size(); i++) {
             listsObj = (JSONObject) listsArr.get(i);
-            globalLists[i] = (String) listObj.get("listName");
+            globalLists[i] = (String) listsObj.get("listName");
         }
     }
 
 //------------------------------------------------------------------------------
 //                                   Helpers
 //------------------------------------------------------------------------------
+
+    /** getCategory: String
+     *
+     * Get category name for specified script name.
+     *
+     * @param scriptName - name being sought
+     * @return category found, null if no mapping
+     */
+    private String getCategory(String scriptName) {
+
+        return (String) categoryMap.get(scriptName);
+    }
 
     /** processScripts: void
      *
@@ -161,7 +177,7 @@ public class Ver2StagePars implements StageParser {
         // Action: If first element is a String, it is the block name.
         //         Get it and and count its category.
         if (scripts.get(0) instanceof String) {
-            String category = Ver2ProjA.getCategory((String) scripts.get(0));
+            String category = getCategory((String) scripts.get(0));
 
             if (category != null)
                 switch (category) {
@@ -233,7 +249,7 @@ public class Ver2StagePars implements StageParser {
      * @param none
      * @return getScriptCountForStage - stage name
      */
-    public int getName() { return name; }
+    public String getName() { return name; }
 
     /** getScriptCountForStage: int
      *

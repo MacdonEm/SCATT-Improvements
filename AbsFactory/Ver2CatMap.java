@@ -1,6 +1,6 @@
 import java.util.HashMap;
 
-public class Ver2CatMap.java implements CategoryMap {
+public class Ver2CatMap extends CategoryMap {
 
     private static HashMap<String, String> categoryMap;
 

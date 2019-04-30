@@ -9,7 +9,7 @@
  * @author Emily Macdonald
  * @version Spring 2019
  */
-public interface CategoryMap {
+public abstract class CategoryMap {
 
     // populate should create and fill the category map
     public abstract void populate();

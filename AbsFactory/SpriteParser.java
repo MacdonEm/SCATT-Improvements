@@ -13,7 +13,7 @@
  * @author Emily Macdonald
  * @version Spring 2019
  */
-public interface SpriteParser {
+public abstract class SpriteParser {
 
     // populate should create the sprite to the above specifications
     public abstract void populate();
