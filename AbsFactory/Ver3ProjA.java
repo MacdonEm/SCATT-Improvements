@@ -15,9 +15,6 @@ public class Ver3ProjA extends ProjectAnalyzer {
     JSONArray targetBlocks;   // Array of a target's blocks
     JSONObject targetObj;     // JSON for current target
 
-    ArrayList<StageParser> stageTargets;
-    ArrayList<SpriteParser> spriteTargets;
-
     Ver3StagePars stage;      // Holding variable for current stage
     Ver3SpritePars sprite;    // Holding variable for current sprite
     boolean ctFlag            // Lets totals know if it's calculating a stage or a sprite

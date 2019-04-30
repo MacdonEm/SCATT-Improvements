@@ -60,7 +60,7 @@ public class Var3CatMap implements CategoryMap {
      *
      * Creates a category map entry for the given target.
      *
-     * @param name - Name of target
+     * @param none
      * @return none
      */
     public void populate() {

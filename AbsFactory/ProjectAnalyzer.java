@@ -1,5 +1,6 @@
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /** ProjectAnalyzer.java
@@ -12,12 +13,12 @@ import java.util.HashMap;
  */
 public abstract class ProjectAnalyzer {
 
-    private String projectName;       // Scratch's project name
-    private JSONObject sbp;           // Scratch's project.JSON file
-    private CategoryMap map;          // Categories and Blocks mapping
-    private SpriteParser [] sprites;  // List of Sprites
-    private StageParser stage;        // List of Stages
-    private Report report;            // report file
+    String projectName;                       // Scratch's project name
+    JSONObject sbp;                           // Scratch's project.JSON file
+    CategoryMap map;                          // Categories and Blocks mapping
+    ArrayList<StageParser> stageTargets;      // List of Stages
+    ArrayList<SpriteParser> spriteTargets;    // List of Sprites
+    Report report;                            // Report file
 
     /*
      * Basic Project Analyzer construcor

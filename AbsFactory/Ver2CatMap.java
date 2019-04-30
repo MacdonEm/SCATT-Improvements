@@ -1,3 +1,4 @@
+import java.util.HashMap;
 
 public class Ver2CatMap.java implements CategoryMap {
 
@@ -10,6 +11,27 @@ public class Ver2CatMap.java implements CategoryMap {
     public Ver2CatMap(HashMap<String, String> categoryMap) {
 
         this.categoryMap = categoryMap;
+    }
+
+    /** populate: void
+     *
+     * Creates a category map entry for the given target.
+     *
+     * @param none
+     * @return none
+     */
+    public void populate() {
+
+        addControlCategoryMap();
+        addDataCategoryMap();
+        addEventsCategoryMap();
+        addLooksCategoryMap();
+        addMoreBlocksCategoryMap();
+        addMotionCategoryMap();
+        addOperatorsCategoryMap();
+        addPenCategoryMap();
+        addSensingCategoryMap();
+        addSoundCategoryMap();
     }
 
     /** addControlCategoryMap: void

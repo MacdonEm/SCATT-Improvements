@@ -1,5 +1,6 @@
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
+import java.util.HashMap;
 
 /** Ver2SpritePars.java
  *
@@ -13,51 +14,43 @@ import org.json.simple.JSONArray;
  */
 public class Ver2SpritePars implements SpriteParser {
 
-    private String[] variables;
-    private String[] lists;
+    String[] variables;                // Array of target's variables
+    String[] lists;                    // Array of target's lists
 
-    private JSONObject sb2;
-    private String name;
-    private int scriptCount;
-    private int variableCount;
-    private int listCount;
-    private int scriptCommentCount;
-    private int soundCount;
-    private int costumeCount;
-    private int controlBlocksForSprite;
-    private int dataBlocksForSprite;
-    private int eventsBlocksForSprite;
-    private int looksBlocksForSprite;
-    private int moreBlocksBlocksForSprite;
-    private int motionBlocksForSprite;
-    private int operatorsBlocksForSprite;
-    private int penBlocksForSprite;
-    private int sensingBlocksForSprite;
-    private int soundBlocksForSprite;
+    JSONObject sb2;                    // Target's Scratch JSON
+    String name;                       // Target's name
+    int scriptCount;                   // Number of target's scripts
+    int variableCount;                 // Number of target's variables
+    int listCount;                     // Number of target's lists
+    int scriptCommentCount;            // Number of target's comments
+    int soundCount;                    // Number of target's sounds
+    int costumeCount;                  // Number of target's costumes
 
-    /** constructor
-    *
-    * @param JSONObject sb2 - json file of the submitted Scratch project
-    *                         (One Sprite)
-    */
+    int controlBlocksForSprite;        // Number of control blocks used
+    int dataBlocksForSprite;           // Number of data blocks used
+    int eventsBlocksForSprite;         // Number of event blocks used
+    int looksBlocksForSprite;          // Number of look blocks used
+    int moreBlocksBlocksForSprite;     // Number of moreBlocks blocks used
+    int motionBlocksForSprite;         // Number of motion blocks used
+    int operatorsBlocksForSprite;      // Number of operator blocks used
+    int penBlocksForSprite;            // Number of pen blocks used
+    int sensingBlocksForSprite;        // Number of sensing blocks used
+    int soundBlocksForSprite;          // Number of sound blocks used
+
+    /*
+     * constructor
+     */
     public Sprite(JSONObject sb2) {
 
         this.sb2 = sb2;
 
-        name =
-            FileUtils.getJSONAttribute(jsonObj, "objName");
-        scriptCount =
-            FileUtils.getJSONArrayAttribute(jsonObj, "scripts").size();
-        variableCount =
-            FileUtils.getJSONArrayAttribute(jsonObj, "variables").size();
-        listCount =
-            FileUtils.getJSONArrayAttribute(jsonObj, "lists").size();
-        scriptCommentCount =
-            FileUtils.getJSONArrayAttribute(jsonObj, "scriptComments").size();
-        soundCount =
-            FileUtils.getJSONArrayAttribute(jsonObj, "sounds").size();
-        costumeCount =
-            FileUtils.getJSONArrayAttribute(jsonObj, "costumes").size();
+        name = FileUtils.getJSONAttribute(jsonObj, "objName");
+        scriptCount = 0;
+        variableCount = 0;
+        listCount = 0;
+        scriptCommentCount = 0;
+        soundCount = 0;
+        costumeCount = 0;
 
         controlBlocksForSprite = 0;
         dataBlocksForSprite = 0;
@@ -69,20 +62,91 @@ public class Ver2SpritePars implements SpriteParser {
         penBlocksForStage = 0;
         sensingBlocksForStage = 0;
         soundBlocksForStage = 0;
+    }
 
-        JSONArray scripts =
-            FileUtils.getJSONArrayAttribute(jsonObj, "scripts");
-        processScripts(scripts);
+    /** populate: void
+     *
+     * Sets target's counts.
+     *
+     * @param none
+     * @return none
+     */
+    public void populate() {
 
+        populateAttribute();
+        processScripts(FileUtils.getJSONArrayAttribute(sb2, "scripts"));
         populateVariables();
         populateLists();
     }
+
+    /** populateAttributes: void
+     *
+     * Populate the attribute counts.
+     *
+     * @param none
+     * @return none
+     */
+    private void populateAttribute() {
+
+        scriptCount = setCount("scripts");
+        variableCount = setCount("variables");
+        listCount = setCount("lists");
+        scriptCommentCount = setCount("scriptComments");
+        soundCount = setCount("sounds");
+        costumeCount = setCount("costumes");
+    }
+
+    /** populateVariables: void
+     *
+     * Populate the array of variables.
+     *
+     * @param none
+     * @return none
+     */
+    private void populateVariables() {
+
+        JSONArray vars =
+            FileUtils.getJSONArrayAttribute(jsonObj, "variables");
+        variables = new String[vars.size()];
+        JSONObject children = new JSONObject();
+
+        for (int i = 0; i < vars.size(); i++) {
+            children = (JSONObject) vars.get(i);
+            variables[i] =
+                FileUtils.getJSONAttribute(children, "name");;
+        }
+    }
+
+    /** populateLists: void
+     *
+     * Populate the array of lists.
+     *
+     * @param none
+     * @return none
+     */
+    private void populateLists() {
+
+        JSONArray listArray =
+            FileUtils.getJSONArrayAttribute(jsonObj, "lists");
+        lists = new String[listArray.size()];
+        JSONObject children = new JSONObject();
+
+        for (int i = 0; i < listArray.size(); i++) {
+            children = (JSONObject) listArray.get(i);
+            lists[i] =
+                FileUtils.getJSONAttribute(children, "listName");
+        }
+    }
+
+//------------------------------------------------------------------------------
+//                                   Helpers
+//------------------------------------------------------------------------------
 
     /** processScripts: void
      *
      * Process scripts to count blocks by category.
      *
-     * @param JSONArray array - array of scripts for sprite
+     * @param array - array of scripts for sprite
      * @return none
      */
     private void processScripts(JSONArray array) {
@@ -142,55 +206,201 @@ public class Ver2SpritePars implements SpriteParser {
         return;
     }
 
-    /** populateVariables: void
+    /** setCount: int
      *
-     * Populate the array of variables.
+     * Helper method for all CountForStage methods. Pass in JSON attribute name
+     * to get count of specified attribute.
      *
-     * @param none
-     * @return none
+     * @param attribute - name of JSON attribute being counted
+     * @return items - count of attribute
      */
-    private void populateVariables() {
+    public int setCount(String attribute) {
 
-        JSONArray vars =
-            FileUtils.getJSONArrayAttribute(jsonObj, "variables");
-        variables = new String[vars.size()];
-        JSONObject children = new JSONObject();
-
-        for (int i = 0; i < vars.size(); i++) {
-            children = (JSONObject) vars.get(i);
-            variables[i] =
-                FileUtils.getJSONAttribute(children, "name");;
-        }
+        JSONArray items = FileUtils.getJSONArrayAttribute(sb2, attribute);
+        return (int) items.size();
     }
 
-    /** populateLists: void
+//------------------------------------------------------------------------------
+//                                  Accessors
+//------------------------------------------------------------------------------
+
+    /** getName: String
      *
-     * Populate the array of lists.
+     * Get sprite name.
      *
      * @param none
-     * @return none
+     * @return name - name of the sprite
      */
-    private void populateLists() {
+    public String getName() { return name; }
 
-        JSONArray listArray =
-            FileUtils.getJSONArrayAttribute(jsonObj, "lists");
-        lists = new String[listArray.size()];
-        JSONObject children = new JSONObject();
+    /** getScriptCount: int
+     *
+     * Get script count for sprite.
+     *
+     * @param none
+     * @return scriptCount - number of scripts found
+     */
+    public int getScriptCount() { return scriptCount; }
 
-        for (int i = 0; i < listArray.size(); i++) {
-            children = (JSONObject) listArray.get(i);
-            lists[i] =
-                FileUtils.getJSONAttribute(children, "listName");
-        }
-    }
+    /** getVariableCount: int
+     *
+     * Get variable count for sprite.
+     *
+     * @param none
+     * @return variableCount - number of variables found
+     */
+    public int getVariableCount() { return variableCount; }
+
+    /** getListCount: int
+     *
+     * Get list count for sprite.
+     *
+     * @param none
+     * @return listCount - number of lists found
+     */
+    public int getListCount() { return listCount; }
+
+    /** getScriptCommentCount: int
+     *
+     * Get script comment count for sprite.
+     *
+     * @param none
+     * @return scriptCommentCount - number of script comments found
+     */
+    public int getScriptCommentCount() { return scriptCommentCount; }
+
+    /** getSoundCount: int
+     *
+     * Get sound count for sprite.
+     *
+     * @param none
+     * @return soundCount - number of sounds found
+     */
+    public int getSoundCount() { return soundCount; }
+
+    /** getCostumeCount: int
+     *
+     * Get costume count for sprite.
+     *
+     * @param none
+     * @return costumeCount - number of costumes found
+     */
+    public int getCostumeCount() { return costumeCount; }
+
+    /** getControlBlocksForSprite: int
+     *
+     * Get control block count for sprite.
+     *
+     * @param none
+     * @return controlBlocksForSprite - number of control blocks found
+     */
+    public int getControlBlocksForSprite() { return controlBlocksForSprite; }
+
+    /** getDataBlocksForSprite: int
+     *
+     * Get data block count for sprite.
+     *
+     * @param none
+     * @return dataBlocksForSprite - number of data blocks found
+     */
+    public int getDataBlocksForSprite() { return dataBlocksForSprite; }
+
+    /** getEventsBlocksForSprite: int
+     *
+     * Get events block count for sprite.
+     *
+     * @param none
+     * @return eventsBlocksForSprite - number of events blocks found
+     */
+    public int getEventsBlocksForSprite() { return eventsBlocksForSprite; }
+
+    /** getLooksBlocksForSprite: int
+     *
+     * Get looks block count for sprite.
+     *
+     * @param none
+     * @return looksBlocksForSprite - number of looks blocks found
+     */
+    public int getLooksBlocksForSprite() { return looksBlocksForSprite; }
+
+    /** getMoreBlocksBlocksForSprite: int
+     *
+     * Get more blocks block count for sprite.
+     *
+     * @param none
+     * @return moreBlocksBlocksForSprite - number of "more blocks" blocks found
+     */
+    public int getMoreBlocksBlocksForSprite() { return moreBlocksBlocksForSprite; }
+
+    /** getMotionBlocksForSprite: int
+     *
+     * Get motion block count for sprite.
+     *
+     * @param none
+     * @return motionBlocksForSprite - number of motion blocks found
+     */
+    public int getMotionBlocksForSprite() { return motionBlocksForSprite; }
+
+    /** getOperatorsBlocksForSprite: int
+     *
+     * Get operators block count for sprite.
+     *
+     * @param none
+     * @return operatorsBlocksForSprite - number of operator blocks found
+     */
+    public int getOperatorsBlocksForSprite() { return operatorsBlocksForSprite; }
+
+    /** getPenBlocksForSprite: int
+     *
+     * Get pen block count for sprite.
+     *
+     * @param none
+     * @return penBlocksForSprite - number of pen blocks found
+     */
+    public int getPenBlocksForSprite() { return penBlocksForSprite; }
+
+    /** getSensingBlocksForSprite: int
+     *
+     * Get sensing block count for sprite.
+     *
+     * @param none
+     * @return sensingBlocksForSprite - number of sensing blocks found
+     */
+    public int getSensingBlocksForSprite() { return sensingBlocksForSprite; }
+
+    /** getSoundBlocksForSprite: int
+     *
+     * Get sound block count for sprite.
+     *
+     * @param none
+     * @return soundBlocksForSprite - number of sound blocks found
+     */
+    public int getSoundBlocksForSprite() { return soundBlocksForSprite; }
+
+    /** getVariables: String[]
+     *
+     * Get list of variables used.
+     *
+     * @param none
+     * @return variables - array of variables found
+     */
+    public String[] getVariables() { return variables; }
+
+    /** getLists: String[]
+     *
+     * Get names of lists used.
+     *
+     * @param none
+     * @return lists - array of lists found
+     */
+    public String[] getLists() { return lists; }
 
     /** getVariableUsageCount: int
      *
-     * (Sub-accessor)
      * Get variable usage count.
      *
-     * @param String var - the variable being counted
-     * @return int count - the number of times the variable is used
+     * @param var - the variable being counted
+     * @return count - the number of times the variable is used
      */
     public int getVariableUsageCount(String var) {
 
@@ -211,11 +421,10 @@ public class Ver2SpritePars implements SpriteParser {
 
     /** getListUsageCount: int
      *
-     * (Sub-accessor)
      * Get list usage count.
      *
-     * @param String list - the list being counted
-     * @return int count - the number of times the list is used
+     * @param list - the list being counted
+     * @return count - the number of times the list is used
      */
     public int getListUsageCount(String list) {
 
@@ -233,179 +442,4 @@ public class Ver2SpritePars implements SpriteParser {
 
         return count;
     }
-
-    //-----------------------------------------------------------
-    //                      Field Accessors
-    //-----------------------------------------------------------
-
-    /** getName: String
-     *
-     * Get sprite name.
-     *
-     * @param none
-     * @return String name - name of the sprite
-     */
-    public String getName() { return name; }
-
-    /** getScriptCount: int
-     *
-     * Get script count for sprite.
-     *
-     * @param none
-     * @return int scriptCount - number of scripts found
-     */
-    public int getScriptCount() { return scriptCount; }
-
-    /** getVariableCount: int
-     *
-     * Get variable count for sprite.
-     *
-     * @param none
-     * @return int variableCount - number of variables found
-     */
-    public int getVariableCount() { return variableCount; }
-
-    /** getListCount: int
-     *
-     * Get list count for sprite.
-     *
-     * @param none
-     * @return int listCount - number of lists found
-     */
-    public int getListCount() { return listCount; }
-
-    /** getScriptCommentCount: int
-     *
-     * Get script comment count for sprite.
-     *
-     * @param none
-     * @return int scriptCommentCount - number of script comments found
-     */
-    public int getScriptCommentCount() { return scriptCommentCount; }
-
-    /** getSoundCount: int
-     *
-     * Get sound count for sprite.
-     *
-     * @param none
-     * @return int soundCount - number of sounds found
-     */
-    public int getSoundCount() { return soundCount; }
-
-    /** getCostumeCount: int
-     *
-     * Get costume count for sprite.
-     *
-     * @param none
-     * @return int costumeCount - number of costumes found
-     */
-    public int getCostumeCount() { return costumeCount; }
-
-    /** getControlBlocksForSprite: int
-     *
-     * Get control block count for sprite.
-     *
-     * @param none
-     * @return int controlBlocksForSprite - number of control blocks found
-     */
-    public int getControlBlocksForSprite() { return controlBlocksForSprite; }
-
-    /** getDataBlocksForSprite: int
-     *
-     * Get data block count for sprite.
-     *
-     * @param none
-     * @return int dataBlocksForSprite - number of data blocks found
-     */
-    public int getDataBlocksForSprite() { return dataBlocksForSprite; }
-
-    /** getEventsBlocksForSprite: int
-     *
-     * Get events block count for sprite.
-     *
-     * @param none
-     * @return int eventsBlocksForSprite - number of events blocks found
-     */
-    public int getEventsBlocksForSprite() { return eventsBlocksForSprite; }
-
-    /** getLooksBlocksForSprite: int
-     *
-     * Get looks block count for sprite.
-     *
-     * @param none
-     * @return int looksBlocksForSprite - number of looks blocks found
-     */
-    public int getLooksBlocksForSprite() { return looksBlocksForSprite; }
-
-    /** getMoreBlocksBlocksForSprite: int
-     *
-     * Get more blocks block count for sprite.
-     *
-     * @param none
-     * @return int moreBlocksBlocksForSprite - number of "more blocks" blocks found
-     */
-    public int getMoreBlocksBlocksForSprite() { return moreBlocksBlocksForSprite; }
-
-    /** getMotionBlocksForSprite: int
-     *
-     * Get motion block count for sprite.
-     *
-     * @param none
-     * @return int motionBlocksForSprite - number of motion blocks found
-     */
-    public int getMotionBlocksForSprite() { return motionBlocksForSprite; }
-
-    /** getOperatorsBlocksForSprite: int
-     *
-     * Get operators block count for sprite.
-     *
-     * @param none
-     * @return int operatorsBlocksForSprite - number of operator blocks found
-     */
-    public int getOperatorsBlocksForSprite() { return operatorsBlocksForSprite; }
-
-    /** getPenBlocksForSprite: int
-     *
-     * Get pen block count for sprite.
-     *
-     * @param none
-     * @return int penBlocksForSprite - number of pen blocks found
-     */
-    public int getPenBlocksForSprite() { return penBlocksForSprite; }
-
-    /** getSensingBlocksForSprite: int
-     *
-     * Get sensing block count for sprite.
-     *
-     * @param none
-     * @return int sensingBlocksForSprite - number of sensing blocks found
-     */
-    public int getSensingBlocksForSprite() { return sensingBlocksForSprite; }
-
-    /** getSoundBlocksForSprite: int
-     *
-     * Get sound block count for sprite.
-     *
-     * @param none
-     * @return int soundBlocksForSprite - number of sound blocks found
-     */
-    public int getSoundBlocksForSprite() { return soundBlocksForSprite; }
-
-    /** getVariables: String[]
-     *
-     * Get list of variables used.
-     *
-     * @param none
-     * @return String[] variables - array of variables found
-     */
-    public String[] getVariables() { return variables; }
-
-    /** getLists: String[]
-     *
-     * Get names of lists used.
-     *
-     * @param none
-     * @return String[] lists - array of lists found
-     */
-    public String[] getLists() { return lists; }
 }

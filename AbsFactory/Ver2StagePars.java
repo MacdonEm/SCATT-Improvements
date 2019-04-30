@@ -1,3 +1,7 @@
+import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
+import java.util.HashMap;
+
 /** Ver2StagePars.java
  *
  * Class for parsing a stage in Scratch Version 2
@@ -10,39 +14,142 @@
  */
 public class Ver2StagePars implements StageParser {
 
-    private String [] globalVariables;
-    private String [] globalLists;
+    String [] globalVariables;          // Array of target's variables
+    String [] globalLists;              // Array of target's lists
+    JSONObject sb2;                     // Target's Scratch JSON
+    String name;                        // Target's name
 
-    private JSONObject sb2;
+    // Object Counts
+    int scriptCountForStage;            // Number of target's scripts
+    int variableCountForStage;          // Number of target's variables
+    int listCountForStage;              // Number of target's lists
+    int scriptCommentCountForStage;     // Number of target's comments
+    int soundCountForStage;             // Number of target's sounds
+    int costumeCountForStage;           // Number of target's costumes
 
     // Stage Blocks
-    private int controlBlocksForStage;
-    private int dataBlocksForStage;
-    private int eventsBlocksForStage;
-    private int looksBlocksForStage;
-    private int moreBlocksBlocksForStage;
-    private int motionBlocksForStage;
-    private int operatorsBlocksForStage;
-    private int penBlocksForStage;
-    private int sensingBlocksForStage;
-    private int soundBlocksForStage;
+    int controlBlocksForStage;          // Number of control blocks used
+    int dataBlocksForStage;             // Number of data blocks used
+    int eventsBlocksForStage;           // Number of event blocks used
+    int looksBlocksForStage;            // Number of look blocks used
+    int moreBlocksBlocksForStage;       // Number of moreBlocks blocks used
+    int motionBlocksForStage;           // Number of motion blocks used
+    int operatorsBlocksForStage;        // Number of operator blocks used
+    int penBlocksForStage;              // Number of pen blocks used
+    int sensingBlocksForStage;          // Number of sensing blocks used
+    int soundBlocksForStage;            // Number of sound blocks used
 
-    /** constructor
-     *
-     * @param JSONObject sb2 - json file of the submitted Scratch project
-     *                         (Whole file)
+    /*
+     * constructor
      */
     public Ver2StagePars(JSONObject sb2) {
 
         this.sb2 = sb2;
+        name = FileUtils.getJSONAttribute(sb2, "objName");
+
+        // Initialize attribute counts for stage
+        scriptCountForStage = 0;
+        variableCountForStage = 0;
+        listCountForStage = 0;
+        scriptCommentCountForStage = 0;
+        soundCountForStage = 0;
+        costumeCountForStage = 0;
+
+        // Initialize block counts for stage
+        controlBlocksForStage = 0;
+        dataBlocksForStage = 0;
+        eventsBlocksForStage = 0;
+        looksBlocksForStage = 0;
+        moreBlocksBlocksForStage = 0;
+        motionBlocksForStage = 0;
+        operatorsBlocksForStage = 0;
+        penBlocksForStage = 0;
+        sensingBlocksForStage = 0;
+        soundBlocksForStage = 0;
     }
+
+    /** populate: void
+     *
+     * Sets target's counts.
+     *
+     * @param none
+     * @return none
+     */
+    public void populate() {
+
+        populateAttribute();
+        processScripts(FileUtils.getJSONArrayAttribute(sb2, "scripts"));
+        populateGlobalVariables();
+        populateGlobalLists();
+    }
+
+    /** populateAttributes: void
+     *
+     * Populate the attribute counts.
+     *
+     * @param none
+     * @return none
+     */
+    private void populateAttribute() {
+
+        scriptCountForStage = getCountForStage("scripts");
+        variableCountForStage = getCountForStage("variables");
+        listCountForStage = getCountForStage("lists");
+        scriptCommentCountForStage = getCountForStage("scriptComments");
+        soundCountForStage = getCountForStage("sounds");
+        costumeCountForStage = getCountForStage("costumes");
+    }
+
+    /** populateGlobalVariables: void
+     *
+     * Populate the global variables array.
+     *
+     * @param none
+     * @return none
+     */
+    private void populateGlobalVariables() {
+
+        JSONArray varsArr = FileUtils.getJSONArrayAttribute(jsonObj, "variables");
+        JSONObject varsObj = new JSONObject();
+
+        globalVariables = new String[varsArr.size()];
+
+        for (int i = 0; i < varsArr.size(); i++) {
+            varsObj = (JSONObject) varsArr.get(i);
+            globalVariables[i] = (String) varsObj.get("name");
+        }
+    }
+
+    /** populateGlobalLists: void
+     *
+     * Populate the global lists array.
+     *
+     * @param none
+     * @return none
+     */
+    private void populateGlobalLists() {
+
+        JSONArray listsArr = FileUtils.getJSONArrayAttribute(jsonObj, "lists");
+        JSONObject listsObj = new JSONObject();
+
+        globalLists = new String[listsArr.size()];
+
+        for (int i = 0; i < listsArr.size(); i++) {
+            listsObj = (JSONObject) listsArr.get(i);
+            globalLists[i] = (String) listObj.get("listName");
+        }
+    }
+
+//------------------------------------------------------------------------------
+//                                   Helpers
+//------------------------------------------------------------------------------
 
     /** processScripts: void
      *
      * Process scripts to count blocks by category. Done via
      * recursion.
      *
-     * @param JSONArray scripts - array of scripts for stage
+     * @param scripts - array of scripts for stage
      * @return none
      */
     private void processScripts(JSONArray scripts) {
@@ -100,79 +207,208 @@ public class Ver2StagePars implements StageParser {
         return;
     }
 
-    /** populateAttributes: void
+    /** getCountForStage: int
      *
-     * Populate the attribute counts.
+     * Helper method for all CountForStage methods.
+     * Pass in JSON attribute name.
+     * Get count of specified attribute for stage.
      *
-     * @param none
-     * @return none
-     **/
-    public void populateAttribute(int add) {
-
-        scriptCountForStage = getCountForStage("scripts");
-        variableCountForStage = getCountForStage("variables");
-        listCountForStage = getCountForStage("lists");
-        scriptCommentCountForStage = getCountForStage("scriptComments");
-        soundCountForStage = getCountForStage("sounds");
-        costumeCountForStage = getCountForStage("costumes");
-    }
-
-    /** populateGlobalVariables: void
-     *
-     * Populate the global variables array.
-     *
-     * @param none
-     * @return none
+     * @param attribute - name of JSON attribute being counted
+     * @return items - count of attribute
      */
-    private void populateGlobalVariables() {
+    public int getCountForStage(String attribute) {
 
-        JSONArray varsArr =
-            FileUtils.getJSONArrayAttribute(jsonObj, "variables");
-        JSONObject varsObj = new JSONObject();
-
-        globalVariables = new String[varsArr.size()];
-
-        for (int i = 0; i < varsArr.size(); i++) {
-            listsObj = (JSONObject) varsArr.get(i);
-            globalVariables[i] = (String) varsObj.get("name");
-        }
+        JSONArray items = FileUtils.getJSONArrayAttribute(sb2, attribute);
+        return (int) items.size();
     }
 
-    /** populateGlobalLists: void
+//------------------------------------------------------------------------------
+//                                  Accessors
+//------------------------------------------------------------------------------
+
+    /** getName: String
      *
-     * Populate the global lists array.
+     * Get target name.
      *
      * @param none
-     * @return none
+     * @return getScriptCountForStage - stage name
      */
-    private void populateGlobalLists() {
+    public int getName() { return name; }
 
-        JSONArray listsArr =
-            FileUtils.getJSONArrayAttribute(jsonObj, "lists");
-        JSONObject listsObj = new JSONObject();
+    /** getScriptCountForStage: int
+     *
+     * Get script count for stage.
+     *
+     * @param none
+     * @return getScriptCountForStage - number of total scripts
+     */
+    public int getScriptCountForStage() { return scriptCountForStage; }
 
-        globalLists = new String[listsArr.size()];
+    /** getVariableCountForStage: int
+     *
+     * Get variable count for stage.
+     *
+     * @param none
+     * @return variableCountForStage - number of total variables
+     */
+    public int getVariableCountForStage() { return variableCountForStage; }
 
-        for (int i = 0; i < listsArr.size(); i++) {
-            listsObj = (JSONObject) listsArr.get(i);
-            globalLists[i] = (String) listObj.get("listName");
-        }
-    }
+    /** getListCountForStage: int
+     *
+     * Get list count for stage.
+     *
+     * @param none
+     * @return listCountForStage - number of total lists
+     */
+    public int getListCountForStage() { return listCountForStage; }
+
+    /** getScriptCommentCountForStage: int
+     *
+     * Get script comment count for stage.
+     *
+     * @param none
+     * @return scriptCommentCountForStage - number of total script comments
+     */
+    public int getScriptCommentCountForStage() { return scriptCommentCountForStage; }
+
+    /** getSoundCountForStage: int
+     *
+     * Get sound count for stage.
+     *
+     * @param none
+     * @return soundCountForStage - number of total sounds
+     */
+    public int getSoundCountForStage() { return soundCountForStage; }
+
+    /** getCostumeCountForStage: int
+     *
+     * Get costume count for stage.
+     *
+     * @param none
+     * @return costumeCountForStage - number of total "costumes" (stage backdrops)
+     */
+    public int getCostumeCountForStage() { return costumeCountForStage; }
+
+    /** getControlBlocksForStage: int
+     *
+     * Get control block count.
+     *
+     * @param none
+     * @return controlBlocksForStage - number of control blocks found
+     */
+    public int getControlBlocksForStage() { return controlBlocksForStage; }
+
+    /** getDataBlocksForStage: int
+     *
+     * Get data block count.
+     *
+     * @param none
+     * @return dataBlocksForStage - number of data blocks found
+     */
+    public int getDataBlocksForStage() { return dataBlocksForStage; }
+
+    /** getEventsBlocksForStage: int
+     *
+     * Get events block count.
+     *
+     * @param none
+     * @return eventsBlocksForStage - number of event blocks found
+     */
+    public int getEventsBlocksForStage() { return eventsBlocksForStage; }
+
+    /** getLooksBlocksForStage: int
+     *
+     * Get looks block count.
+     *
+     * @param none
+     * @return looksBlocksForStage - number of looks blocks found
+     */
+    public int getLooksBlocksForStage() { return looksBlocksForStage; }
+
+    /** getMoreBlocksBlocksForStage: int
+     *
+     * Get more blocks block count.
+     *
+     * @param none
+     * @return moreBlocksBlocksForStage - number of "more blocks" blocks found
+     */
+    public int getMoreBlocksBlocksForStage() {return moreBlocksBlocksForStage;}
+
+    /** getMotionBlocksForStage: int
+     *
+     * Get motion block count.
+     * Should always be 0 - motion blocks are not available for stage.
+     *
+     * @param none
+     * @return motionBlocksForStage - number of motion blocks found
+     */
+    public int getMotionBlocksForStage() { return motionBlocksForStage; }
+
+    /** getOperatorsBlocksForStage: int
+     *
+     * Get operators block count.
+     *
+     * @param none
+     * @return operatorsBlocksForStage - number of operator blocks found
+     */
+    public int getOperatorsBlocksForStage() { return operatorsBlocksForStage; }
+
+    /** getPenBlocksForStage: int
+     *
+     * Get pen block count.
+     *
+     * @param none
+     * @return penBlocksForStage - number of pen blocks found
+     */
+    public int getPenBlocksForStage() { return penBlocksForStage; }
+
+    /** getSensingBlocksForStage: int
+     *
+     * Get sensing block count.
+     *
+     * @param none
+     * @return sensingBlocksForStage - number of sensing blocks found
+     */
+    public int getSensingBlocksForStage() { return sensingBlocksForStage; }
+
+    /** getSoundBlocksForStage: int
+     *
+     * Get sound block count.
+     *
+     * @param none
+     * @return soundBlocksForStage - number of sound blocks found
+     */
+    public int getSoundBlocksForStage() { return soundBlocksForStage; }
+
+    /** getGlobalVariables: String[]
+     *
+     * Get the variables array.
+     *
+     * @param none
+     * @return globalVariables - array of variables found
+     */
+    public String[] getGlobalVariables() { return globalVariables; }
+
+    /** getGlobalLists: String[]
+     *
+     * Get the list array.
+     *
+     * @param none
+     * @return globalLists - array of lists found
+     */
+    public String[] getGlobalLists() { return globalLists; }
 
     /** getStageVariableUsageCount: int
      *
-     * (Sub-accessor)
-     * Get global variable usage count
-     *    from stage scripts.
+     * Get global variable usage count from stage scripts.
      *
-     *  @param String var - the variable being counted
-     *  @return int count - number of times the variable is used in Stage
+     *  @param var - the variable being counted
+     *  @return count - number of times the variable is used in Stage
      */
     public int getStageVariableUsageCount(String var) {
 
         int count = 0;
-        JSONArray stageJSON =
-            FileUtils.getJSONArrayAttribute(jsonObj, "scripts");
+        JSONArray stageJSON = FileUtils.getJSONArrayAttribute(jsonObj, "scripts");
         String stage = stageJSON.toString();
         int pos = stage.indexOf(var);
 
@@ -187,11 +423,10 @@ public class Ver2StagePars implements StageParser {
 
     /** getStageListUsageCount: int
      *
-     * (Sub-accessor)
      * Get global list usage count.
      *
-     * @param String list - the list being counted
-     * @return int count - number of times the list is used in Stage
+     * @param list - the list being counted
+     * @return count - number of times the list is used in Stage
      */
     public int getStageListUsageCount(String list) {
 
@@ -210,20 +445,4 @@ public class Ver2StagePars implements StageParser {
         return count;
     }
 
-    /** getCountForStage: int
-     *
-     * Helper method for all CountForStage methods.
-     * Pass in JSON attribute name.
-     * Get count of specified attribute for stage.
-     *
-     * @param String attribute - name of JSON attribute being counted
-     * @return int items - count of attribute
-     */
-    public int getCountForStage(String attribute) {
-
-        JSONArray items =
-            FileUtils.getJSONArrayAttribute(sb2, attribute);
-
-        return (int) items.size();
-    }
 }
