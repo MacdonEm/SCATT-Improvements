@@ -160,12 +160,6 @@ public class Ver3ProjA extends ProjectAnalyzer {
 	    report.lineBreak();
         }
         report.finishReport();
-
-        for (int i = 0; i < spriteTargets.size(); i++) {
-            System.out.println(spriteTargets.get(i).getName());
-        }
-
-        System.out.println(spriteTargets.size());
     }
 
     /** produceJSONReport: void

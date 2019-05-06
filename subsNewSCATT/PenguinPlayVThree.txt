@@ -1,5 +1,5 @@
 
-SCATT Report May 6, 2019 5:53:42 AM
+SCATT Report May 6, 2019 7:07:34 AM
 
 File: PenguinPlayVThree
 ---------------------------------
@@ -7,7 +7,7 @@ File: PenguinPlayVThree
 Total Counts
 ---------------------------------
 Sprites Total: 			4
-Scripts Total: 			0
+Scripts Total: 			4
 Variables Total: 		1
 Lists Total: 			0
 Sounds Total: 			5
@@ -26,7 +26,7 @@ My Block Blocks: 		0
 Stage Counts
 ---------------------------------
 Sprites: 				3
-Scripts: 				0
+Scripts: 				1
 Variables: 				1
 Lists: 					0
 Sounds: 				1
@@ -45,7 +45,7 @@ My Block Blocks: 		0
 Sprite Counts
 ---------------------------------
 Sprite: Sprite1
-Scripts: 				0
+Scripts: 				1
 Variables: 				0
 Lists: 					0
 Sounds: 				0
@@ -62,7 +62,7 @@ Sound Blocks: 			0
 My Block Blocks: 		0
 
 Sprite: Penguin2 Talk
-Scripts: 				0
+Scripts: 				1
 Variables: 				0
 Lists: 					0
 Sounds: 				0
@@ -79,7 +79,7 @@ Sound Blocks: 			0
 My Block Blocks: 		0
 
 Sprite: Trumpet
-Scripts: 				0
+Scripts: 				1
 Variables: 				0
 Lists: 					0
 Sounds: 				4
