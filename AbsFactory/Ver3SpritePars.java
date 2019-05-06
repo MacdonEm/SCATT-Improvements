@@ -1,5 +1,6 @@
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import java.util.ArrayList;
 
 /** Var3SpritePars.java
  *
@@ -11,8 +12,9 @@ import org.json.simple.JSONObject;
 public class Ver3SpritePars extends SpriteParser {
 
     JSONObject targetObj;       // Target's Scratch JSON
-    String[] variables;         // Array of target's variables
-    String[] lists;             // Array of target's lists
+    Object[] variables;         // Array of target's variables
+    Object[] lists;             // Array of target's lists
+    ArrayList<String> blocksList;    // Need to get the blocks somehow
 
     // Object Counts
     String objName;             // Target's name
@@ -93,18 +95,25 @@ public class Ver3SpritePars extends SpriteParser {
      *
      * Populates target's block category counts.
      *
+     * Unchecked warnings are suppressed because JSONObject does not
+     * allow for a type specification, and this class handles type verification
+     * elsewhere.
+     *
      * @param none
      * @return none
      */
+    @SuppressWarnings("unchecked")
     private void populateBlockCount() {
 
-        JSONArray blocksList =
-            FileUtils.getJSONArrayAttribute(targetObj, "blocks");
+        JSONObject tempBlocks = FileUtils.getJSONObject(targetObj, "blocks");
+        blocksList = new ArrayList<String>(tempBlocks.keySet());
+        JSONObject temp;
         String block;
         String[] str;
 
         for (int i = 0; i < blocksList.size(); i++) {
-            block = FileUtils.getJSONAttribute((JSONObject) blocksList.get(i), "opcode");
+            temp = FileUtils.getJSONObject(tempBlocks, blocksList.get(i));
+            block = FileUtils.getJSONAttribute(temp, "opcode");
             populateCount(block.split("_")[0]);
         }
     }
@@ -120,9 +129,10 @@ public class Ver3SpritePars extends SpriteParser {
      * @param none
      * @return none
      */
+    @SuppressWarnings("unchecked")
     private void targetVariables() {
 
-        JSONArray master = FileUtils.getJSONArrayAttribute(targetObj,"variables");
+        /* JSONArray master = FileUtils.getJSONArrayAttribute(targetObj,"variables");
         JSONArray index;
         variables = new String[master.size()];
 
@@ -130,7 +140,12 @@ public class Ver3SpritePars extends SpriteParser {
             index =
                 FileUtils.getJSONArrayAttribute((JSONObject) master.get(i), (String)master.get(i));
             variables[i] = (String)index.get(0);
-        }
+        } */
+
+        JSONObject master = FileUtils.getJSONObject(targetObj, "variables");
+        ArrayList<String> temp = new ArrayList<String>(master.keySet());
+
+        variables = temp.toArray();
     }
 
     /** targetLists: void
@@ -140,9 +155,10 @@ public class Ver3SpritePars extends SpriteParser {
      * @param none
      * @return none
      */
+    @SuppressWarnings("unchecked")
     private void targetLists() {
 
-        JSONArray master = FileUtils.getJSONArrayAttribute(targetObj,"variables");
+        /* JSONArray master = FileUtils.getJSONArrayAttribute(targetObj,"variables");
         JSONArray index;
         variables = new String[master.size()];
 
@@ -150,7 +166,12 @@ public class Ver3SpritePars extends SpriteParser {
             index =
                 FileUtils.getJSONArrayAttribute((JSONObject) master.get(i), (String)master.get(i));
             variables[i] = (String)index.get(0);
-        }
+        } */
+
+        JSONObject master = FileUtils.getJSONObject(targetObj, "lists");
+        ArrayList<String> temp = new ArrayList<String>(master.keySet());
+
+        lists = temp.toArray();
     }
 
     /** targetName: void
@@ -190,9 +211,13 @@ public class Ver3SpritePars extends SpriteParser {
      * @param none
      * @return none
      */
+    @SuppressWarnings("unchecked")
     private void targetComments() {
 
-        comments = FileUtils.getJSONArrayAttribute(targetObj, "comments").size();
+
+        JSONObject temp1 = FileUtils.getJSONObject(targetObj, "comments");
+        ArrayList<String> temp2 = new ArrayList<String>(temp1.keySet());
+        comments = temp2.size();
     }
 
     /** targetCostumes: void
@@ -204,7 +229,7 @@ public class Ver3SpritePars extends SpriteParser {
      */
     private void targetCostumes() {
 
-        costumes = FileUtils.getJSONArrayAttribute(targetObj, "costumes").size();
+	costumes = FileUtils.getJSONArrayAttribute(targetObj, "costumes").size();
     }
 
     /** targetName: void
@@ -279,7 +304,7 @@ public class Ver3SpritePars extends SpriteParser {
      * @param none
      * @return variables - array of target's variables
      */
-    public String[] getVariables() { return variables; }
+    public Object[] getVariables() { return variables; }
 
     /** getLists: String[]
      *
@@ -288,7 +313,7 @@ public class Ver3SpritePars extends SpriteParser {
      * @param none
      * @return lists - array of target's lists
      */
-     public String[] getLists() { return lists; }
+     public Object[] getLists() { return lists; }
 
     /** getComments: int
      *

@@ -197,7 +197,7 @@ public class Ver3ProjA extends ProjectAnalyzer {
      */
     public void computeCounts() {
 
-        for (int i = 0; i <= targets.size(); i++) {
+        for (int i = 0; i < targets.size(); i++) {
             targetObj = (JSONObject) targets.get(i);
 
             if(isStage(targetObj)) {
