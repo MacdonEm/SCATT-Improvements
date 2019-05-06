@@ -86,8 +86,8 @@ public class Ver3CatMap extends CategoryMap {
         HashMap<Integer, Block> scriptMap = new HashMap<Integer, Block>();
         Block block = makeBlock(jsonBlock);
 
-        if (block.getParent().equals("") ||
-            !scriptMap.containsValue(block.getParent())) {   // Script does not exist
+        if (block.getParent().equals("") /* ||
+            !scriptMap.containsValue(block.getParent()) */) {   // Script does not exist
                 scriptMap.put(scriptCount, block);
                 scriptCount++;
         } else {                                             // Script exists

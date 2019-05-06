@@ -50,8 +50,6 @@ public class Ver3ProjA extends ProjectAnalyzer {
         stageTargets = new ArrayList<Ver3StagePars>();
         spriteTargets = new ArrayList<Ver3SpritePars>();
         map = new Ver3CatMap();
-        stage = new Ver3StagePars();
-        sprite = new Ver3SpritePars();
         report = new TextReport(projectName);
 
         ctFlag = false;
@@ -162,6 +160,12 @@ public class Ver3ProjA extends ProjectAnalyzer {
 	    report.lineBreak();
         }
         report.finishReport();
+
+        for (int i = 0; i < spriteTargets.size(); i++) {
+            System.out.println(spriteTargets.get(i).getName());
+        }
+
+        System.out.println(spriteTargets.size());
     }
 
     /** produceJSONReport: void
@@ -197,21 +201,38 @@ public class Ver3ProjA extends ProjectAnalyzer {
      */
     public void computeCounts() {
 
+
         for (int i = 0; i < targets.size(); i++) {
             targetObj = (JSONObject) targets.get(i);
 
-            if(isStage(targetObj)) {
+            if(isStage(targetObj))
+                stageTargets.add(new Ver3StagePars());
+            else
+                spriteTargets.add(new Ver3SpritePars());
+        }
+
+        int stageIndex = 0;
+        int spriteIndex = 0;
+
+        for (int i = 0; i < targets.size(); i++) {
+            targetObj = (JSONObject) targets.get(i);
+
+            if(isStage(targetObj)) { 
+                stage = stageTargets.get(stageIndex);
                 stage.setTargetObj(targetObj);
                 createMap();
                 createStage();
                 ctFlag = true;    // createTotals operates with a stage
                 createTotals();
+                stageIndex++;
             } else {
+                sprite = spriteTargets.get(spriteIndex);
                 sprite.setTargetObj(targetObj);
                 createMap();
                 createSprite();
                 ctFlag = false;    // createTotals operates with a sprite
                 createTotals();
+                spriteIndex++;
             }
         }
     }
@@ -246,7 +267,6 @@ public class Ver3ProjA extends ProjectAnalyzer {
 
         stage.populate();
         stage.setScriptCount(map.getScriptSize(stage.getName()));
-        stageTargets.add(stage);
     }
 
     /** createSprite: void
@@ -260,7 +280,6 @@ public class Ver3ProjA extends ProjectAnalyzer {
 
         sprite.populate();
         sprite.setScriptCount(map.getScriptSize(sprite.getName()));
-        spriteTargets.add(sprite);
     }
 
     /** createTotals: void

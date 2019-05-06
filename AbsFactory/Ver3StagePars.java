@@ -114,7 +114,8 @@ public class Ver3StagePars extends StageParser {
         for (int i = 0; i < blocksList.size(); i++) {
             temp = FileUtils.getJSONObject(tempBlocks, blocksList.get(i));
             block = FileUtils.getJSONAttribute(temp, "opcode");
-            populateCount(block.split("_")[0]);
+            str = block.split("_");
+            populateCount(str[0]);
         }
     }
 
@@ -263,7 +264,7 @@ public class Ver3StagePars extends StageParser {
             case "event" :
                 eventCount++;
                 break;
-            case "look" :
+            case "looks" :
                 lookCount++;
                 break;
             case "motion" :
@@ -280,6 +281,8 @@ public class Ver3StagePars extends StageParser {
                 break;
             case "procedures" :
                 myBlockCount++;
+                break;
+            default:
                 break;
         }
     }
