@@ -159,6 +159,7 @@ public class Ver3ProjA extends ProjectAnalyzer {
             report.printSpriteCounts("sensingB", spriteTargets.get(i).getSensingCount(), "");       // Sensing block count
             report.printSpriteCounts("soundB", spriteTargets.get(i).getSoundCount(), "");           // Sound block count
             report.printSpriteCounts("myBlockB", spriteTargets.get(i).getMyBlockCount(), "");       // MyBlock block count
+	    report.lineBreak();
         }
         report.finishReport();
     }
@@ -229,7 +230,7 @@ public class Ver3ProjA extends ProjectAnalyzer {
      */
     protected void createMap() {
 
-        map.setTargetBlocks(FileUtils.getJSONArrayAttribute(targetObj, "blocks"));
+        map.setTargetBlocks(targetObj);
         map.setTargetName(FileUtils.getJSONAttribute(targetObj, "name"));
         map.populate();
     }
@@ -317,15 +318,21 @@ public class Ver3ProjA extends ProjectAnalyzer {
      */
     private boolean isStage(JSONObject index) {
 
-        JSONObject status = FileUtils.getJSONObject(index, "isStage");
+        /* String status = FileUtils.getJSONAttribute(index, "isStage");
 
-        if (FileUtils.getJSONObject(status, "true") != null)
+        if (status.equals("true"))
             return true;
-        else if (FileUtils.getJSONObject(status, "false") != null)
+        else if (status.equals("false"))
             return false;
         else
-            throw new NullPointerException("Error in isStage: Value was null");
+            throw new NullPointerException("Error in isStage: Value was null"); */
 
+        boolean status = FileUtils.getJSONBooleanAttribute(index, "isStage");
+
+        if (status)
+            return true;
+        else
+            return false;
     }
 
 }

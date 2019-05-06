@@ -255,6 +255,22 @@ public class FileUtils {
         return value;
     }
 
+    /** getJSONBooleanAttribute: boolean
+     *
+     * Get JSON object attribute's by name.
+     *
+     * @param obj  - JSON Object
+     *        name - attribute's name
+     * @return value - boolean value of attribute
+     */
+    public static boolean getJSONBooleanAttribute(JSONObject obj, String name) {
+
+        boolean value = false;
+        if (obj != null && obj.get(name) != null)
+            value = (boolean) obj.get(name);
+        return value;
+    }
+
     /** getScratchVersion: int
      *
      * Check version of Scratch project file.

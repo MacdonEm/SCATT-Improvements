@@ -3,6 +3,7 @@ import org.json.simple.JSONArray;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Map;
+import java.util.ArrayList;
 
 /** Ver3CatMap.java
  *
@@ -16,7 +17,7 @@ public class Ver3CatMap extends CategoryMap {
     /*
      * Describes a Block node
      */
-    class Block {
+/*    public class Block {
         String id;          // Object name produced by Scratch
         String category;    // Block category, first half of opcode
         String type;        // Block name, second half of opcode
@@ -28,15 +29,16 @@ public class Ver3CatMap extends CategoryMap {
         public String getCategory() { return category; }
         public String getType() { return type; }
         public String getParent() { return parent; }
-        public Boolean isChild(Block parentBlock) {
+        public boolean isChild(Block parentBlock) {
             if (parent.equals(parentBlock.getID()))
                 return true;
             return false;
         }
-    }
+    }*/
 
     // Array of blocks to sort
-    JSONArray targetBlocks;
+    ArrayList<String> targetBlocks;
+    JSONObject targetObjBlocks;
 
     // Map of Target to Scripts
     HashMap<String, HashMap<Integer, Block>> catMap;
@@ -44,13 +46,13 @@ public class Ver3CatMap extends CategoryMap {
     // Script count and target name (respectively)
     int scriptCount;
     String name;
+    String tempBlockName;
 
     /*
      * Creates a version 3 category map object.
      */
     public Ver3CatMap() {
 
-        targetBlocks = null;
         scriptCount = 0;
         catMap = new HashMap<String, HashMap<Integer, Block>>();
     }
@@ -64,8 +66,10 @@ public class Ver3CatMap extends CategoryMap {
      */
     public void populate() {
 
-        for (int i = 0; i < targetBlocks.size(); i++)
-            catMap.put(name, makeScript((JSONObject) targetBlocks.get(i)));
+        for (int i = 0; i < targetBlocks.size(); i++) {
+            tempBlockName = targetBlocks.get(i);
+            catMap.put(name, makeScript(FileUtils.getJSONObject(targetObjBlocks, tempBlockName)));
+        }
     }
 
     /** makeScript: void
@@ -111,7 +115,7 @@ public class Ver3CatMap extends CategoryMap {
         temp = (FileUtils.getJSONAttribute(jsonBlock, "opcode")).split("_");
         par = FileUtils.getJSONAttribute(jsonBlock, "parent");
 
-        return new Block(jsonBlock.toString(), temp[0], temp[1], par);
+        return new Block(tempBlockName, temp[0], temp[1], par);
     }
 
 //------------------------------------------------------------------------------
@@ -166,10 +170,19 @@ public class Ver3CatMap extends CategoryMap {
      *
      * Set the targetBlocks array to pull from.
      *
+     * Unchecked warnings are suppressed because JSONObject does not
+     * allow for a type specification, and this class handles type verification
+     * elsewhere.
+     *
      * @param targetBlocks - JSONArray of target's used blocks
      * @return none
      */
-    public void setTargetBlocks(JSONArray targetBlocks) { this.targetBlocks = targetBlocks; }
+    @SuppressWarnings("unchecked")
+    public void setTargetBlocks(JSONObject tObjB) {
+
+        targetObjBlocks = FileUtils.getJSONObject(tObjB, "blocks");
+        targetBlocks = new ArrayList<String>(targetObjBlocks.keySet());
+    }
 
     /** setTargetName: void
      *
