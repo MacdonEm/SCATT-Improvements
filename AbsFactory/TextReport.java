@@ -173,10 +173,10 @@ public class TextReport extends Report {
             case "eventB" :
                 printW.println("Event Blocks: \t\t\t" + count);
                 break;
-            case "looksB" :
+            case "lookB" :
                 printW.println("Looks Blocks: \t\t\t" + count);
                 break;
-            case "moreBlocksB" :
+            case "moreBlockB" :
                 printW.println("More Blocks Blocks: \t" + count);
                 break;
             case "motionB" :
@@ -216,7 +216,7 @@ public class TextReport extends Report {
                 printW.println("Scripts: \t\t\t\t" + count);
                 break;
             case "sprite" :
-                printW.println("Sprites: \t\t\t" + count);
+                printW.println("Sprites: \t\t\t\t" + count);
                 break;
             case "variable" :
                 printW.println("Variables: \t\t\t\t" + count);
@@ -230,7 +230,7 @@ public class TextReport extends Report {
                 printW.println("Sounds: \t\t\t\t" + count);
                 break;
             case "comment" :
-                printW.println("Comments: \t\t" + count);
+                printW.println("Comments: \t\t\t\t" + count);
                 break;
             case "costume" :
                 printW.println("Costumes: \t\t\t\t" + count);
@@ -271,7 +271,7 @@ public class TextReport extends Report {
                 printW.println("Sounds: \t\t\t\t" + count);
                 break;
             case "comment" :
-                printW.println("Comments: \t\t" + count);
+                printW.println("Comments: \t\t\t\t" + count);
                 break;
             case "costume" :
                 printW.println("Costumes: \t\t\t\t" + count);
@@ -285,8 +285,8 @@ public class TextReport extends Report {
 //                                Helpers
 //------------------------------------------------------------------------------
 
-/*
 
+/*
     * Print total variable usage counts.
     *
     * @param printW - the printWriter to use
@@ -410,13 +410,14 @@ public class TextReport extends Report {
     }
 
 
-    * Print List name and usage count for Sprite.
-    *  This includes both global and local lists.
-    *
-    *  @param printW - the printWriter to use
-    *  @param i - the submission to get count for
-    *  @param sprite - the sprite to get count for
-    *
+     *
+     * Print List name and usage count for Sprite.
+     *  This includes both global and local lists.
+     *
+     *  @param printW - the printWriter to use
+     *  @param i - the submission to get count for
+     *  @param sprite - the sprite to get count for
+     *
     public void printListUsage(PrintWriter printW, int i, Sprite sprite) {
 
         String[] globalLists = submissions[i].getGlobalLists();
@@ -471,4 +472,15 @@ public class TextReport extends Report {
         Date date = new Date();
         return dateFormat.format(date);
     }
+
+
+    /** lineBreak: void
+     *
+     * Creates a line break.
+     *
+     * @param none
+     * @return none
+     */
+    public void lineBreak() { printW.println(); }
+
 }

@@ -15,7 +15,6 @@ public abstract class ProjectAnalyzer {
 
     String projectName;                       // Scratch's project name
     JSONObject sbp;                           // Scratch's project.JSON file
-    CategoryMap map;                          // Categories and Blocks mapping
     TextReport report;                        // Report file
 
     /*

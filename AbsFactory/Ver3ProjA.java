@@ -17,6 +17,7 @@ public class Ver3ProjA extends ProjectAnalyzer {
 
     ArrayList<Ver3StagePars> stageTargets;
     ArrayList<Ver3SpritePars> spriteTargets;
+    Ver3CatMap map;
 
     Ver3StagePars stage;      // Holding variable for current stage
     Ver3SpritePars sprite;    // Holding variable for current sprite
@@ -53,7 +54,7 @@ public class Ver3ProjA extends ProjectAnalyzer {
         sprite = new Ver3SpritePars();
         report = new TextReport(projectName);
 
-        ctFlag = "";
+        ctFlag = false;
         scriptTotals = 0;
         variableTotals = 0;
         listTotals = 0;
@@ -196,16 +197,16 @@ public class Ver3ProjA extends ProjectAnalyzer {
     public void computeCounts() {
 
         for (int i = 0; i <= targets.size(); i++) {
-            targetObj = targets.get(i);
+            targetObj = (JSONObject) targets.get(i);
 
             if(isStage(targetObj)) {
-                stage.setTargetObj(taretObj);
+                stage.setTargetObj(targetObj);
                 createMap();
                 createStage();
                 ctFlag = true;    // createTotals operates with a stage
                 createTotals();
             } else {
-                sprite.setTargetObj(taretObj);
+                sprite.setTargetObj(targetObj);
                 createMap();
                 createSprite();
                 ctFlag = false;    // createTotals operates with a sprite
@@ -243,7 +244,7 @@ public class Ver3ProjA extends ProjectAnalyzer {
     protected void createStage() {
 
         stage.populate();
-        stage.setScriptCount(stage.getName());
+        stage.setScriptCount(map.getScriptSize(stage.getName()));
         stageTargets.add(stage);
     }
 
@@ -257,7 +258,7 @@ public class Ver3ProjA extends ProjectAnalyzer {
     protected void createSprite() {
 
         sprite.populate();
-        sprite.setScriptCount(sprite.getName());
+        sprite.setScriptCount(map.getScriptSize(sprite.getName()));
         spriteTargets.add(sprite);
     }
 
@@ -287,7 +288,7 @@ public class Ver3ProjA extends ProjectAnalyzer {
             soundBTotals += stage.getSoundCount();
             myBlockBTotals += stage.getMyBlockCount();
         } else {         // calculate totals with sprite
-            scriptTotals += getScriptSize(sprite.getName());
+            scriptTotals += map.getScriptSize(sprite.getName());
             variableTotals += sprite.getVarCount();
             listTotals += sprite.getLisCount();
             soundTotals += sprite.getSounds();
@@ -325,7 +326,6 @@ public class Ver3ProjA extends ProjectAnalyzer {
         else
             throw new NullPointerException("Error in isStage: Value was null");
 
-        return;
     }
 
 }

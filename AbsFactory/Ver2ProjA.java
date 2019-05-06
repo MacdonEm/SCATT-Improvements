@@ -10,6 +10,7 @@ public class Ver2ProjA extends ProjectAnalyzer {
     ArrayList<Ver2SpritePars> spriteTargets;
     JSONObject jsonObj;
     Ver2StagePars stage;
+    Ver2CatMap map;
 
     int scriptTotals;         // Total scripts
     int variableTotals;       // Total variables
@@ -211,7 +212,7 @@ public class Ver2ProjA extends ProjectAnalyzer {
         /* Totals */
         report.totalHeader();
         // You forgot to compute totals, so do that.
-            report.printTotalCounts("sprite", (getScriptCount()));         // Sprite count
+            report.printTotalCounts("sprite", (getSpriteCount()));         // Sprite count
             report.printTotalCounts("script", scriptTotals);               // Script count
             report.printTotalCounts("variable", variableTotals);           // Variable count
             report.printTotalCounts("list", listTotals);                   // List count
@@ -271,6 +272,7 @@ public class Ver2ProjA extends ProjectAnalyzer {
             report.printSpriteCounts("soundB", spriteTargets.get(i).getSoundBlocksForSprite(), "");                     // Sound block count
             report.printSpriteCounts("moreBlockB", spriteTargets.get(i).getMoreBlocksBlocksForSprite(), "");       // MyBlock block count
             report.printSpriteCounts("penB", spriteTargets.get(i).getPenBlocksForSprite(), "");                    // Pen block count
+	    report.lineBreak();
         }
         report.finishReport();
     }
@@ -304,8 +306,14 @@ public class Ver2ProjA extends ProjectAnalyzer {
      */
     private int getScriptCount() {
 
-        JSONObject obj = FileUtils.getJSONObject(jsonObj, "info");
-        return (int) FileUtils.getJSONLongAttribute(obj, "scriptCount");
+/*        JSONObject obj = FileUtils.getJSONObject(jsonObj, "info");
+        return (int) FileUtils.getJSONLongAttribute(obj, "scriptCount"); */
+        int count = 0;
+
+        for (int i = 0; i < spriteTargets.size(); i++)
+            count += spriteTargets.get(i).getScriptCount();
+
+        return count + stage.getScriptCountForStage();
     }
 
     /** getSpriteCount: int
@@ -317,8 +325,9 @@ public class Ver2ProjA extends ProjectAnalyzer {
      */
     private int getSpriteCount() {
 
-        JSONObject obj = FileUtils.getJSONObject(jsonObj, "info");
-        return (int) FileUtils.getJSONLongAttribute(obj, "spriteCount");
+/*        JSONObject obj = FileUtils.getJSONObject(jsonObj, "info");
+        return (int) FileUtils.getJSONLongAttribute(obj, "spriteCount"); */
+        return spriteTargets.size();
     }
 
     /** getVariableCountForProgram: int

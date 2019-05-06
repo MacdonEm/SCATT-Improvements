@@ -103,8 +103,8 @@ public class Ver3StagePars extends StageParser {
         String block;
         String[] str;
 
-        for (int i = 0; i < blocks.size(); i++) {
-            block = FileUtils.getJSONAttribute(blocksList.get(i), "opcode");
+        for (int i = 0; i < blocksList.size(); i++) {
+            block = FileUtils.getJSONAttribute((JSONObject) blocksList.get(i), "opcode");
             populateCount(block.split("_")[0]);
         }
     }
@@ -128,7 +128,7 @@ public class Ver3StagePars extends StageParser {
 
         for(int i = 0; i < master.size(); i++) {
             index =
-                FileUtils.getJSONArrayAttribute(master.get(i), (String)master.get(i));
+                FileUtils.getJSONArrayAttribute((JSONObject) master.get(i), (String)master.get(i));
             variables[i] = (String)index.get(0);
         }
     }
@@ -148,7 +148,7 @@ public class Ver3StagePars extends StageParser {
 
         for(int i = 0; i < master.size(); i++) {
             index =
-                FileUtils.getJSONArrayAttribute(master.get(i), (String)master.get(i));
+                FileUtils.getJSONArrayAttribute((JSONObject) master.get(i), (String)master.get(i));
             variables[i] = (String)index.get(0);
         }
     }
@@ -172,7 +172,7 @@ public class Ver3StagePars extends StageParser {
      * @param none
      * @return none
      */
-    private void varCount() { varCount = variable.length(); }
+    private void varCount() { varCount = variables.length; }
 
     /** lisCount: void
      *
@@ -181,7 +181,7 @@ public class Ver3StagePars extends StageParser {
      * @param none
      * @return none
      */
-    private void lisCount() { lisCount = lists.length(); }
+    private void lisCount() { lisCount = lists.length; }
 
     /** targetComments: void
      *
@@ -436,7 +436,7 @@ public class Ver3StagePars extends StageParser {
      * @param targetObj - JSONObject of target
      * @return none
      */
-    public void setTargetObj(JSONArray targetObj) { this.targetObj = targetObj; }
+    public void setTargetObj(JSONObject targetObj) { this.targetObj = targetObj; }
 
     /** setScriptCount: void
      *

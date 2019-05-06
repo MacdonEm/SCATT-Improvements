@@ -52,7 +52,6 @@ public class Ver3CatMap extends CategoryMap {
 
         targetBlocks = null;
         scriptCount = 0;
-        target = null;
         catMap = new HashMap<String, HashMap<Integer, Block>>();
     }
 
@@ -66,7 +65,7 @@ public class Ver3CatMap extends CategoryMap {
     public void populate() {
 
         for (int i = 0; i < targetBlocks.size(); i++)
-            catMap.put(name, makeScript(targetBlovks.get(i)));
+            catMap.put(name, makeScript((JSONObject) targetBlocks.get(i)));
     }
 
     /** makeScript: void
@@ -112,7 +111,7 @@ public class Ver3CatMap extends CategoryMap {
         temp = (FileUtils.getJSONAttribute(jsonBlock, "opcode")).split("_");
         par = FileUtils.getJSONAttribute(jsonBlock, "parent");
 
-        return new Block((String)jsonBlock, temp[0], temp[1], par);
+        return new Block(jsonBlock.toString(), temp[0], temp[1], par);
     }
 
 //------------------------------------------------------------------------------
@@ -157,7 +156,7 @@ public class Ver3CatMap extends CategoryMap {
      * @param name - target name
      * @return scriptMap - scriptMap for target
      */
-     public int getScriptSize(String name) { return catmap.get(name).size(); }
+     public int getScriptSize(String name) { return catMap.get(name).size(); }
 
 //------------------------------------------------------------------------------
 //                                 Mutators
