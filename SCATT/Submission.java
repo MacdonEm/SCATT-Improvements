@@ -10,10 +10,10 @@ import java.util.HashMap;
 /**
  * Class for a Scratch submission.
  *
- * @author Michelle Melton
- * @author Kara Beason
- * @author Cydney Caldwell
- * @version Spr 2017
+ * @origauth Michelle Melton, Kara Beason, Cydney Caldwell
+ * @origver Spr 2017
+ * @author Emily Macdonald
+ * @version Spr 2019
  */
 public class Submission
 {
@@ -50,6 +50,39 @@ public class Submission
         convertToZip();
         unZip();
         parseJSONFile();
+        evalSubmission();
+    }
+
+    /**
+     * Choose which version to evaluate
+     * and do so.
+     */
+    private void evalSubmission()
+    {
+        int v = FileUtils.getScratchVersion(jsonObj);
+
+        switch (v)
+        {
+            case 2 :
+                runVersion2();
+                break;
+                
+            case 3 :
+                runVersion3();
+                break;
+                
+            default:
+                System.out.println("Error evalSubmission: " +
+                                   "Scratch project version not recognized");
+                break;
+        }
+    }
+
+    /**
+     * Run operations for v2.0 Offline Editor.
+     */
+    private void runVersion2()
+    {
         categoryMap = new HashMap<String, String>();
         addControlCategoryMap();
         addDataCategoryMap();
@@ -68,6 +101,33 @@ public class Submission
     }
 
     /**
+     * Run operations for v3.0.0.
+     */
+    private void runVersion3()
+    {
+        System.out.println("\nScratch project v3.0.0 support comming soon.");
+        System.out.println("Report will be empty.\n");
+
+        categoryMap = new HashMap<String, String>();
+        addControlCategoryMap3();
+        addDataCategoryMap3();
+        addEventsCategoryMap3();
+        addLooksCategoryMap3();
+        // addMoreBlocksCategoryMap();
+        addMotionCategoryMap3();
+        addOperatorsCategoryMap3();
+        // addPenCategoryMap();
+        addSensingCategoryMap3();
+        addSoundCategoryMap3();
+        addMyBlockCategoryMap3();
+        countBlockCategoriesForStage();
+        createSprites();
+        populateGlobalVariables();
+        populateGlobalLists();
+        
+    }   
+
+    /**
      * Get filename of submission.
      *
      * @return filename
@@ -78,20 +138,20 @@ public class Submission
     }
 
     /**
-     * Check if valid .sb2.
+     * Check if valid .sb2 or .sb3.
      *
-     * @return true if valid .sb2
+     * @return true if valid .sb2 or .sb3
      */
     public boolean isValid()
     {
         String sb2Name = sb2.getName();
         int len = sb2Name.length();
         String ext = sb2Name.substring(len - 4);
-        return ext.equals(".sb2") && sb2.isFile();
+        return (ext.equals(".sb2") || ext.equals(".sb3")) && sb2.isFile();
     }
 
     /**
-     * Convert .sb2 to .zip.
+     * Convert .sb2 or .sb3 to .zip.
      * Handles valid .sb2 test internally.
      */
     private void convertToZip()
@@ -104,7 +164,7 @@ public class Submission
 
     /**
      * Unzip file. 
-     * Handles valid .sb2 test internally.
+     * Handles valid .sb2 or .sb3 test internally.
      */
     private void unZip()
     {
@@ -745,7 +805,7 @@ public class Submission
     
     /**
      * HashMap to store script names with block category.
-     * Control scripts.
+     * Version 2 Control scripts.
      */
     private void addControlCategoryMap()
     {
@@ -765,7 +825,27 @@ public class Submission
     
     /**
      * HashMap to store script names with block category.
-     * Data scripts.
+     * Version 3 Control scripts.
+     */
+    private void addControlCategoryMap3()
+    {
+        categoryMap.put("wait", "control");
+        categoryMap.put("repeat", "control");
+        categoryMap.put("forever", "control");
+        categoryMap.put("if", "control");
+        categoryMap.put("if_else", "control");
+        categoryMap.put("wait_until", "control");
+        categoryMap.put("repeat_until", "control");
+        categoryMap.put("stop", "control");
+        categoryMap.put("start_as_clone", "control");
+        categoryMap.put("create_clone_of", "control");
+        categoryMap.put("create_clone_of_menu", "control");
+        categoryMap.put("delete_this_clone", "control");
+    }
+    
+    /**
+     * HashMap to store script names with block category.
+     * Version 2 Data scripts.
      */
     private void addDataCategoryMap()
     {
@@ -788,7 +868,31 @@ public class Submission
     
     /**
      * HashMap to store script names with block category.
-     * Events scripts.
+     * Version 3 Data scripts.
+     */
+    private void addDataCategoryMap3()
+    {
+        // 3 blocks unaccounted for, unique
+        categoryMap.put("setvariableto", "data");
+        categoryMap.put("changevariableby", "data");
+        categoryMap.put("showvariable", "data");
+        categoryMap.put("hidevariable", "data");
+        categoryMap.put("addtolist", "data");
+        categoryMap.put("deletealloflist", "data");
+        categoryMap.put("deleteoflist", "data");
+        categoryMap.put("insertatlist", "data");
+        categoryMap.put("replaceitemoflist", "data");
+        categoryMap.put("itemoflist", "data");
+        categoryMap.put("itemnumoflist", "data");
+        categoryMap.put("lengthoflist", "data");
+        categoryMap.put("listcontainsitem", "data");
+        categoryMap.put("showList", "data");
+        categoryMap.put("hideList", "data");
+    }
+
+    /**
+     * HashMap to store script names with block category.
+     * Version 2 Events scripts.
      */
     private void addEventsCategoryMap()
     {
@@ -801,10 +905,26 @@ public class Submission
         categoryMap.put("broadcast:", "events");
         categoryMap.put("doBroadcastAndWait", "events");
     }
-    
+
     /**
      * HashMap to store script names with block category.
-     * Looks scripts.
+     * Version 3 Events scripts.
+     */
+    private void addEventsCategoryMap3()
+    {
+        categoryMap.put("whenflagclicked", "events");
+        categoryMap.put("whenkeypressed", "events");
+        categoryMap.put("whenthisspriteclicked", "events");
+        categoryMap.put("whenbackdropswitchesto", "events");
+        categoryMap.put("whengreaterthan", "events");
+        categoryMap.put("whenbroadcastreceived", "events");
+        categoryMap.put("broadcast", "events");
+        categoryMap.put("broadcastandwait", "events");
+    }
+
+    /**
+     * HashMap to store script names with block category.
+     * Version 2 Looks scripts.
      */
     private void addLooksCategoryMap()
     {
@@ -827,6 +947,36 @@ public class Submission
         categoryMap.put("costumeIndex", "looks");
         categoryMap.put("sceneName", "looks");
         categoryMap.put("scale", "looks");
+    }
+   
+    /**
+     * HashMap to store script names with block category.
+     * Version 3 Looks scripts.
+     */
+    private void addLooksCategoryMap3()
+    {
+        categoryMap.put("sayforsecs", "looks");
+        categoryMap.put("say", "looks");
+        categoryMap.put("thinkforsecs", "looks");
+        categoryMap.put("think", "looks");
+        categoryMap.put("switchcostumeto", "looks");
+        categoryMap.put("costume", "looks");
+        categoryMap.put("nextcostume", "looks");
+        categoryMap.put("switchbackdropto", "looks");
+        categoryMap.put("backdrops", "looks");
+        categoryMap.put("nextbackdrop", "looks");
+        categoryMap.put("changesizeby", "looks");
+        categoryMap.put("setsizeto", "looks");
+        categoryMap.put("changeeffectby", "looks");
+        categoryMap.put("seteffectto", "looks");
+        categoryMap.put("cleargraphiceffects", "looks");
+        categoryMap.put("show", "looks");
+        categoryMap.put("hide", "looks");
+        categoryMap.put("gotofrontback", "looks");
+        categoryMap.put("goforwardbackwardlayers", "looks");
+        categoryMap.put("costumenumbername", "looks");
+        categoryMap.put("backdropnumbername", "looks");
+        categoryMap.put("size","looks");
     }
     
     /**
@@ -866,7 +1016,7 @@ public class Submission
     
     /**
      * HashMap to store script names with block category.
-     * Motion scripts.
+     * Version 2 Motion scripts.
      */
     private void addMotionCategoryMap()
     {
@@ -888,7 +1038,36 @@ public class Submission
     
     /**
      * HashMap to store script names with block category.
-     * Operators scripts.
+     * Version 3 Motion scripts.
+     */
+    private void addMotionCategoryMap3()
+    {
+        categoryMap.put("movesteps", "motion");
+        categoryMap.put("turnright", "motion");
+        categoryMap.put("turnleft", "motion");
+        categoryMap.put("goto", "motion");
+        categoryMap.put("goto_menu", "motion");
+        categoryMap.put("gotoxy", "motion");
+        categoryMap.put("glideto", "motion");
+        categoryMap.put("glideto_menu", "motion");
+        categoryMap.put("glidesecstoxy", "motion");
+        categoryMap.put("pointindirection", "motion");
+        categoryMap.put("pointtowards", "motion");
+        categoryMap.put("pointtowards_menu", "motion");
+        categoryMap.put("changexby", "motion");
+        categoryMap.put("setx", "motion");
+        categoryMap.put("changeyby", "motion");
+        categoryMap.put("sety", "motion");
+        categoryMap.put("ifonedgebounce", "motion");
+        categoryMap.put("setrotationstyle", "motion");
+        categoryMap.put("xposition", "motion");
+        categoryMap.put("yposition", "motion");
+        categoryMap.put("direction", "motion");
+    }
+
+    /**
+     * HashMap to store script names with block category.
+     * Version 2 Operators scripts.
      */
     private void addOperatorsCategoryMap()
     {
@@ -910,6 +1089,32 @@ public class Submission
         categoryMap.put("rounded", "operators");
         categoryMap.put("computeFunction:of:", "operators");
     }
+   
+    /**
+     * HashMap to store script names with block category.
+     * Version 3 Operators scripts.
+     */
+    private void addOperatorsCategoryMap3()
+    {
+        categoryMap.put("add", "operators");
+        categoryMap.put("subtract", "operators");
+        categoryMap.put("multiply", "operators");
+        categoryMap.put("divide", "operators");
+        categoryMap.put("random", "operators");
+        categoryMap.put("gt", "operators");
+        categoryMap.put("lt", "operators");
+        categoryMap.put("equals", "operators");
+        categoryMap.put("and", "operators");
+        categoryMap.put("or", "operators");
+        categoryMap.put("not", "operators");
+        categoryMap.put("join", "operators");
+        categoryMap.put("letter_of", "operators");
+        categoryMap.put("length", "operators");
+        categoryMap.put("contains", "operators");
+        categoryMap.put("mod", "operators");
+        categoryMap.put("round", "operators");
+        categoryMap.put("mathop", "operators");
+    }
     
     /**
      * HashMap to store script names with block category.
@@ -929,10 +1134,10 @@ public class Submission
         categoryMap.put("changePenSizeBy:", "pen");
         categoryMap.put("penSize:", "pen");
     }
-    
+
     /**
      * HashMap to store script names with block category.
-     * Sensing scripts.
+     * Version 2 Sensing scripts.
      */
     private void addSensingCategoryMap()
     {
@@ -957,10 +1162,38 @@ public class Submission
         categoryMap.put("timestamp", "sensing");
         categoryMap.put("getUserName", "sensing");
     }
+   
+    /**
+     * HashMap to store script names with block category.
+     * Version 3 Sensing scripts.
+     */
+    private void addSensingCategoryMap3()
+    {
+        categoryMap.put("touchingobject", "sensing");
+        categoryMap.put("touchingobjectmenu", "sensing");
+        categoryMap.put("touchingcolor", "sensing");
+        categoryMap.put("coloristouchingcolor", "sensing");
+        categoryMap.put("askandwait", "sensing");
+        categoryMap.put("answer", "sensing");
+        categoryMap.put("keypressed", "sensing");
+        categoryMap.put("keyoptions", "sensing");
+        categoryMap.put("mousedown", "sensing");
+        categoryMap.put("setdragmode", "sensing");
+        categoryMap.put("resettimer", "sensing");
+        categoryMap.put("mousex", "sensing");
+        categoryMap.put("mousey", "sensing");
+        categoryMap.put("loudness", "sensing");
+        categoryMap.put("timer", "sensing");
+        categoryMap.put("current", "sensing");
+        categoryMap.put("dayssince2000", "sensing");
+        categoryMap.put("username", "sensing");
+        categoryMap.put("of", "sensing");
+        categoryMap.put("of_object_menu", "sensing");
+    }
     
     /**
      * HashMap to store script names with block category.
-     * Sound scripts.
+     * Version 2 Sound scripts.
      */
     private void addSoundCategoryMap()
     {
@@ -978,7 +1211,46 @@ public class Submission
         categoryMap.put("setTempoTo:", "sound");
         categoryMap.put("tempo", "sound");
     }
+    
+    /**
+     * HashMap to store script names with block category.
+     * Version 3 Sound scripts.
+     */
+    private void addSoundCategoryMap3()
+    {
+        // There are two sounds_menu blocks but with
+        // different hash codes. Only one is coded until
+        // the difference is clear.
+        categoryMap.put("playuntildone", "sound");
+        categoryMap.put("sounds_menu", "sound");
+        categoryMap.put("play", "sound");
+        categoryMap.put("stopallsounds", "sound");
+        categoryMap.put("changeeffectby", "sound");
+        categoryMap.put("seteffectto", "sound");
+        categoryMap.put("cleareffects", "sound");
+        categoryMap.put("changevolumeby", "sound");
+        categoryMap.put("setvolumeto", "sound");
+        categoryMap.put("volume", "sound");
+        categoryMap.put("changeTempoBy:", "sound");
+        categoryMap.put("setTempoTo:", "sound");
+        categoryMap.put("tempo", "sound");
+    }
 
+    /**
+     * HashMap to store script names with block category.
+     * Version 3 User Made Blocks
+     */
+     private void addMyBlockCategoryMap3()
+     {
+         // May be able to identify via matching
+         // hashes. Some have mutations, some have parents.
+         categoryMap.put("definition", "procedures");
+         categoryMap.put("prototype", "procedures");
+         categoryMap.put("call", "procedures");
+         categoryMap.put("arg_rep_string_number", "procedures");
+         categoryMap.put("arg_rep_boolean", "procedures");
+     }
+    
     /**
      * Get the variables array.
      *

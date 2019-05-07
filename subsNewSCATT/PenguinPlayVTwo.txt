@@ -1,0 +1,104 @@
+
+SCATT Report May 6, 2019 12:22:19 AM
+
+File: PenguinPlayVTwo
+---------------------------------
+
+Total Counts
+---------------------------------
+Sprites Total: 			3
+Scripts Total: 			11
+Variables Total: 		1
+Lists Total: 			0
+Sounds Total: 			5
+Comments Total: 		0
+Costumes Total: 		7
+Control Blocks: 		6
+Data Blocks: 			5
+Event Blocks: 			17
+Looks Blocks: 			9
+Motion Blocks: 			8
+Operator Blocks: 		2
+Sensing Blocks: 		0
+Sound Blocks: 			5
+More Blocks Blocks: 	0
+Pen Blocks: 			0
+
+Stage Counts
+---------------------------------
+Sprites: 				3
+Scripts: 				2
+Variables: 				1
+Lists: 					0
+Sounds: 				1
+Comments: 				0
+Costumes: 				1
+Control Blocks: 		0
+Data Blocks: 			0
+Event Blocks: 			4
+Looks Blocks: 			0
+Motion Blocks: 			0
+Operator Blocks: 		0
+Sensing Blocks: 		0
+Sound Blocks: 			1
+More Blocks Blocks: 	0
+Pen Blocks: 			0
+
+Sprite Counts
+---------------------------------
+Sprite: Sprite1
+Scripts: 				2
+Variables: 				0
+Lists: 					0
+Sounds: 				0
+Comments: 				0
+Costumes: 				2
+Control Blocks: 		3
+Data Blocks: 			1
+Event Blocks: 			2
+Looks Blocks: 			4
+Motion Blocks: 			4
+Operator Blocks: 		1
+Sensing Blocks: 		0
+Sound Blocks: 			0
+More Blocks Blocks: 	0
+Pen Blocks: 			0
+
+Sprite: Penguin2 Talk
+Scripts: 				3
+Variables: 				0
+Lists: 					0
+Sounds: 				0
+Comments: 				0
+Costumes: 				2
+Control Blocks: 		0
+Data Blocks: 			3
+Event Blocks: 			5
+Looks Blocks: 			2
+Motion Blocks: 			0
+Operator Blocks: 		0
+Sensing Blocks: 		0
+Sound Blocks: 			0
+More Blocks Blocks: 	0
+Pen Blocks: 			0
+
+Sprite: Trumpet
+Scripts: 				4
+Variables: 				0
+Lists: 					0
+Sounds: 				4
+Comments: 				0
+Costumes: 				2
+Control Blocks: 		3
+Data Blocks: 			1
+Event Blocks: 			6
+Looks Blocks: 			3
+Motion Blocks: 			4
+Operator Blocks: 		1
+Sensing Blocks: 		0
+Sound Blocks: 			4
+More Blocks Blocks: 	0
+Pen Blocks: 			0
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
